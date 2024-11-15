@@ -1,44 +1,75 @@
 package Services;
 
-import Models.Account;
+import Exceptions.TransactionException;
+import Models.IdType;
 import Models.Transaction;
 import Models.TransactionType;
 import Repositories.TransactionRepository;
 
+import java.io.IOException;
+import java.util.Optional;
+
 public class TransactionService {
     private final TransactionRepository repo;
     private final AccountService accountService;
+    private final IdCounterService idCounterService;
 
-    public TransactionService(TransactionRepository repo, AccountService accountService) {
+    public TransactionService(TransactionRepository repo, AccountService accountService, IdCounterService idCounterService) {
         this.repo = repo;
         this.accountService = accountService;
+        this.idCounterService = idCounterService;
     }
 
-    public void addTransaction(TransactionType type, String description, Account origin, Account destiny, float amount){
+    public Transaction addTransaction(TransactionType type, String description, Long origin, Long destiny, float amount){
+        long newTransactionId;
+        try {
+            newTransactionId = (idCounterService.getLastId(IdType.TRANSACTIONID) + 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        Transaction t = new Transaction(type, description, origin, destiny, amount);
+        Transaction t = new Transaction(newTransactionId, type, description, origin, destiny, amount);
 
-        accountService.startTransaction(t);
+        try {
+            accountService.startTransaction(t);
+            saveTransaction(t);
+            idCounterService.saveCounter(IdType.TRANSACTIONID, newTransactionId);
+            return t;
 
-        /*
-        Aqui hay que manejar una posible excepción que puede ser lanzada desde el repositorio de cuenta.
-        Si el repositorio de cuenta no puede accceder a la base de datos o archivo para modificar el balance, tenemos que lanzar la excepción desde el
-        repositorio de cuenta al servicio de cuenta, y posteriormente lanzarla a este servicio. finalmente aquí la manejamos con un try-catch.
-        Basicamente si no hay excepcion, registramos la transaccion en la base de datos usando el repositorio de transacciones, pero si hay una excepción,
-        mostramos un error y no registramos la transacción ya que sería mentira que la operación se llevó a cabo
-         */
+        } catch (IOException e) {
 
-        persistTransaction();
-        /*
-        Si todo sale bien se llama a este método privado para que guarde la transacción, pero recordemos que este método no la guarda, sino que llama
-        al método del repositorio que guarda la transacción. El método del repositorio también puede lanzar una excepción que tendriamos que controlar aquí,
-        si no logra guardar o persistir la transaccion
-         */
+            throw new TransactionException("The operation has failed. Changes weren't saved in the data base.");
+        }
+
+
+
     }
 
-    private  void persistTransaction(){
-        //Este método tiene que implementarse al igual que el método del repositorio
 
-        repo.saveTransaction();
+    public Transaction getTransactionById(long transactonId){
+        Optional<Transaction> optionalTransaction = null;
+        try {
+            optionalTransaction = repo.getTransactionById(transactonId);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (optionalTransaction.isEmpty()) {
+            throw new TransactionException("The transaction couldn't be found");
+        }
+
+        return optionalTransaction.get();
+    }
+
+
+    private  void saveTransaction(Transaction transaction){
+        try {
+            repo.saveTransaction(transaction);
+
+        } catch (IOException e) {
+
+            throw new TransactionException("The transaction was processed, but the changes couldn't be saved");
+        }
     }
 }

@@ -1,0 +1,6 @@
+1|1|Ahorros|24979.5
+2|1|Gastos diarios|5000.0
+3|2|Ahorros|20.5
+4|2|Gastos diarios|0.0
+5|3|Ahorros|10000.0
+6|3|Gastos diarios|0.0

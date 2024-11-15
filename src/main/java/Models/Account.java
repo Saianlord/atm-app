@@ -7,25 +7,42 @@ import java.util.List;
 import java.util.Objects;
 
 public class Account {
-    private Long id;
+    private long id;
+    private long clientId;
     private String name;
     private float balance;
-    private List<Transaction> transactions;
 
-    public Account(String name) {
+    public Account(long id, String name, long clientId) {
+        this.id = id;
         this.name = name;
+        this.clientId = clientId;
         this.balance = 0.0f;
     }
 
-    public Long getId() {
+    public Account() {
+    }
+
+    public long getId() {
         return id;
     }
 
-    public String getDescription() {
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setDescription(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -37,14 +54,6 @@ public class Account {
         this.balance = balance;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void addTransaction(Transaction transaction) {
-        //Se reconstruye directamente de la base de datos, por lo tanto las excepciones se manejan ahí
-        this.transactions.add(transaction);
-    }
 
 
     @Override
@@ -54,5 +63,12 @@ public class Account {
         Account account = (Account) o;
         return Objects.equals(id, account.id);
     }
+
+    @Override
+    public String toString() {
+        return id + "|" + clientId + "|" + name + "|" + balance;
+    }
+
+
 
 }
