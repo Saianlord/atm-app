@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class User {
-    private Long id;
+    private long id;
     private String nationalId;
+    private String name;
+    private String lastName;
     private int pin;
-    private List<Account> accounts;
 
     /*
     El tipo de usuario Admin no puede tener cuentas, ya que este tipo de usuario es usado solo para
@@ -17,14 +18,19 @@ public abstract class User {
 
      */
 
-    public User(String nationalId, int pin, boolean isClient ) {
+    public User(String nationalId, String name, String lastName, int pin) {
         this.nationalId = nationalId;
+        this.name = name;
+        this.lastName = lastName;
         this.pin = pin;
-        this.accounts = isClient ? new ArrayList<>() : null;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNationalId() {
@@ -35,6 +41,22 @@ public abstract class User {
         this.nationalId = nationalId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public int getPin() {
         return pin;
     }
@@ -43,18 +65,10 @@ public abstract class User {
         this.pin = pin;
     }
 
-    public List<Account> getAccounts() {
-        if (this.accounts == null) {
-            throw new UserExceptions("This type of user doesn't have accounts");
-        }
-        return this.accounts;
-    }
 
-    public void addAccount(Account account) {
-        if (this.accounts == null) {
-            throw new UserExceptions("This type of user can't have accounts");
-        }
-        this.accounts.add(account);
+    @Override
+    public String toString() {
+        return id + "|" + nationalId + "|" + name + "|" + lastName + "|" + pin;
     }
 
 
