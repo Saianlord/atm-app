@@ -4,17 +4,36 @@
  */
 package GUI;
 
+import Repositories.AccountRepository;
+import Repositories.IdCounterRepository;
+import Repositories.TransactionRepository;
+import Repositories.UserRepository;
+import Services.AccountService;
+import Services.IdCounterService;
+import Services.TransactionService;
+import Services.UserService;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 
 public class ATM extends javax.swing.JFrame {
+    
+    IdCounterRepository idRepo = new IdCounterRepository();
+    IdCounterService idService = new IdCounterService(idRepo);
+    AccountRepository repo = new AccountRepository();
+    AccountService aService = new AccountService(repo, idService);
+    TransactionRepository trepo = new TransactionRepository();
+    TransactionService tservice = new TransactionService(trepo, aService, idService);
+    UserRepository uRepo = new UserRepository();
+    UserService uService = new UserService(uRepo, idService);
 
     private LoginWindow loginWindow;
+    private MainMenuWindow mainMenuWindow;
     
+
     public ATM() {
         initComponents();
-        loginWindow = new LoginWindow();
+        loginWindow = new LoginWindow(this);
         showPanel(loginWindow);
         this.setLocationRelativeTo(null);
     }
@@ -28,6 +47,19 @@ public class ATM extends javax.swing.JFrame {
         Content.add(v, BorderLayout.CENTER);
         Content.revalidate();
         Content.repaint(); 
+          
+    }
+    
+    public void run(){
+        
+        while (true){
+            if (mainMenuWindow.isEnabled()){
+                System.out.println("Menu");
+            }
+            if (loginWindow.isEnabled()){
+                System.out.println("Login");
+            }
+        }
     }
 
     /**

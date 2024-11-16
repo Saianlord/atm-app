@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 package GUI;
+
+import Models.User;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,11 +13,18 @@ package GUI;
  */
 public class LoginWindow extends javax.swing.JPanel {
 
+    private MainMenuWindow mainMenuWindow;
+    private NewUserWindow newUserWindow;
+    private ATM actualContainer;
+
     /**
      * Creates new form LoginWindow
+     *
+     * @param container
      */
-    public LoginWindow() {
+    public LoginWindow(ATM container) {
         initComponents();
+        this.actualContainer = container;
     }
 
     /**
@@ -28,34 +37,35 @@ public class LoginWindow extends javax.swing.JPanel {
     private void initComponents() {
 
         btnAddService = new javax.swing.JButton();
-        txtPassword = new javax.swing.JTextField();
         txtUser = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
         imgMainLogo = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(122, 122, 255), 5, true));
+        setToolTipText("");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAddService.setBackground(new java.awt.Color(102, 102, 255));
         btnAddService.setFont(new java.awt.Font("Franklin Gothic Book", 0, 66)); // NOI18N
         btnAddService.setForeground(new java.awt.Color(255, 255, 255));
         btnAddService.setText("+");
+        btnAddService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddServiceActionPerformed(evt);
+            }
+        });
         add(btnAddService, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 790, 70, 70));
-
-        txtPassword.setBackground(new java.awt.Color(204, 204, 204));
-        txtPassword.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(153, 153, 153));
-        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPassword.setText("Password");
-        add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
 
         txtUser.setBackground(new java.awt.Color(204, 204, 204));
         txtUser.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
         txtUser.setForeground(new java.awt.Color(153, 153, 153));
         txtUser.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtUser.setText("User");
+        txtUser.setToolTipText("User");
         txtUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUserActionPerformed(evt);
@@ -82,15 +92,51 @@ public class LoginWindow extends javax.swing.JPanel {
         imgMainLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgMainLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\MainLogo.jpeg")); // NOI18N
         add(imgMainLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 700, 190));
+
+        txtPassword.setBackground(new java.awt.Color(204, 204, 204));
+        txtPassword.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPassword.setText("Password");
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
+        add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        if (actualContainer.uService.login(txtUser.getText(), txtPassword.getText())) {
+            User user = actualContainer.uRepo.getUserByUser(txtUser.getText());
+            System.out.println("user = " + user);
+            mainMenuWindow = new MainMenuWindow(actualContainer, this, user);
+            actualContainer.showPanel(mainMenuWindow);
+            clearTxt();
+        } else {
+            txtUser.setText("User");
+            txtPassword.setText("Password");
+            JOptionPane.showMessageDialog(null, "Invalid credentials. Please try again.");
+            clearTxt();
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    public void clearTxt(){
+        txtUser.setText("User");
+        txtPassword.setText("Password");
+    }
+    
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void btnAddServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddServiceActionPerformed
+        newUserWindow = new NewUserWindow(actualContainer, this);
+        actualContainer.showPanel(newUserWindow);
+    }//GEN-LAST:event_btnAddServiceActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -98,7 +144,7 @@ public class LoginWindow extends javax.swing.JPanel {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel imgMainLogo;
     private javax.swing.JLabel lblLogo;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

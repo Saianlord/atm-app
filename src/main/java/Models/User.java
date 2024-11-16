@@ -9,7 +9,6 @@ public class User {
     private String id;
     private String nationalId;
     private String name;
-    private String lastName;
     private String pin;
 
     /*
@@ -20,10 +19,10 @@ public class User {
     public User(){
         
     }
-    public User(String nationalId, String name, String lastName, String pin) {
+    public User(String nationalId, String name, String id, String pin) {
         this.nationalId = nationalId;
         this.name = name;
-        this.lastName = lastName;
+        this.id = id;
         this.pin = pin;
     }
 
@@ -51,14 +50,6 @@ public class User {
         this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getPin() {
         return pin;
     }
@@ -70,7 +61,7 @@ public class User {
 
     @Override
     public String toString() {
-        return id + "|" + nationalId + "|" + name + "|" + lastName + "|" + pin;
+        return id + "|" + nationalId + "|" + name + "|" + pin;
     }
 
 

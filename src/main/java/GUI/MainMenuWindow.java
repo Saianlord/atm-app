@@ -4,18 +4,27 @@
  */
 package GUI;
 
+import Models.User;
+
 /**
  *
  * @author fgarr
  */
-public class MainManuWindow extends javax.swing.JPanel {
+public class MainMenuWindow extends javax.swing.JPanel {
+    
+    private ATM actualContainer;
+    private LoginWindow loginWindow;
+    private User user;
 
     /**
      * Creates new form MainManuWindow
      */
-    public MainManuWindow() {
+    
+    public MainMenuWindow(ATM container, LoginWindow loginWindow, User user) {
+        this.actualContainer = container;
+        this.loginWindow = loginWindow;
+        this.user = user;
         initComponents();
-        
     }
 
     /**
@@ -71,6 +80,11 @@ public class MainManuWindow extends javax.swing.JPanel {
         btnExit.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         btnExit.setForeground(new java.awt.Color(255, 255, 255));
         btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
         add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
 
         btnMakeTransfer.setBackground(new java.awt.Color(102, 102, 255));
@@ -94,6 +108,10 @@ public class MainManuWindow extends javax.swing.JPanel {
     private void btnRequestAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestAccountActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRequestAccountActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        actualContainer.showPanel(loginWindow);
+    }//GEN-LAST:event_btnExitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
