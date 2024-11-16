@@ -12,11 +12,15 @@ import Models.User;
 public class UserRepository {
 
     private UsersFile usersFile = UsersFile.getInstance();
-
     private File file = usersFile.getFile();
 
+    public UserRepository() {
+    }
+    
+    
+
     public User getUserById(String idNumber) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (foundUser(line, idNumber)) {
@@ -28,7 +32,25 @@ public class UserRepository {
         }
         return null;
     }
+    
+    public User getUserByUser(String userName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (foundUserByUser(line, userName)) {
+                    return createUser(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    private boolean foundUserByUser(String line, String userName) {
+        String[] userData = line.split("\\|");
+        return userData[1].trim().equals(userName);
+    }
    
     private boolean foundUser(String line, String idNumber) {
         String[] userData = line.split("\\|");
@@ -48,7 +70,7 @@ public class UserRepository {
 
  
     public boolean createUserInFile(User user) {
-        try (FileWriter writer = new FileWriter("users.txt", true)) {
+        try (FileWriter writer = new FileWriter(file, true)) {
             String newUser = user.getId() + " | " +
                              user.getName() + " | " +
                              user.getNationalId() + " | " +
