@@ -5,31 +5,33 @@ import Exceptions.UserExceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class User {
-    private long id;
+public class User {
+    private String id;
     private String nationalId;
     private String name;
     private String lastName;
-    private int pin;
+    private String pin;
 
     /*
     El tipo de usuario Admin no puede tener cuentas, ya que este tipo de usuario es usado solo para
     gestionar ciertas cosas a las que los clientes no pueden acceder.
 
      */
-
-    public User(String nationalId, String name, String lastName, int pin) {
+    public User(){
+        
+    }
+    public User(String nationalId, String name, String lastName, String pin) {
         this.nationalId = nationalId;
         this.name = name;
         this.lastName = lastName;
         this.pin = pin;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,11 +59,11 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public int getPin() {
+    public String getPin() {
         return pin;
     }
 
-    public void setPin(int pin) {
+    public void setPin(String pin) {
         this.pin = pin;
     }
 
