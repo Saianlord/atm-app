@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Client extends User{
 
-    public Client(String nationalId, String name, String lastName, int pin) {
+    public Client(String nationalId, String name, String lastName, String pin) {
         super(nationalId, name, lastName,  pin);
     }
 
