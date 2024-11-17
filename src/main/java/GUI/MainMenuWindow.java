@@ -1,23 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package GUI;
 
 import Models.User;
 
-/**
- *
- * @author fgarr
- */
+
 public class MainMenuWindow extends javax.swing.JPanel {
     
-    private ATM actualContainer;
-    private LoginWindow loginWindow;
-    private User user;
+    private final ATM actualContainer;
+    private final LoginWindow loginWindow;
+    private final User user;
 
     /**
      * Creates new form MainManuWindow
+     * @param container
+     * @param user
      */
     
     public MainMenuWindow(ATM container, LoginWindow loginWindow, User user) {
@@ -36,8 +32,8 @@ public class MainMenuWindow extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imgSecondaryLogo = new javax.swing.JLabel();
         btnMoneyDeposit = new javax.swing.JButton();
+        imgSecondaryLogo = new javax.swing.JLabel();
         btnWithdrawal = new javax.swing.JButton();
         btnRequestAccount = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
@@ -49,15 +45,15 @@ public class MainMenuWindow extends javax.swing.JPanel {
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(122, 122, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\SecondaryLogo.jpeg")); // NOI18N
-        imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
-
         btnMoneyDeposit.setBackground(new java.awt.Color(102, 102, 255));
         btnMoneyDeposit.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnMoneyDeposit.setForeground(new java.awt.Color(255, 255, 255));
         btnMoneyDeposit.setText("Money deposit");
         add(btnMoneyDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 460, 70));
+
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/MainLogo.png"))); // NOI18N
+        imgSecondaryLogo.setLabelFor(imgSecondaryLogo);
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 190, 260));
 
         btnWithdrawal.setBackground(new java.awt.Color(102, 102, 255));
         btnWithdrawal.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
@@ -96,7 +92,7 @@ public class MainMenuWindow extends javax.swing.JPanel {
         lblInstructions.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
         lblInstructions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblInstructions.setText("Select an option to proceed:");
-        add(lblInstructions, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 700, 60));
+        add(lblInstructions, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 700, 60));
 
         btnPrintDocuments.setBackground(new java.awt.Color(102, 102, 255));
         btnPrintDocuments.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
@@ -121,7 +117,7 @@ public class MainMenuWindow extends javax.swing.JPanel {
     private javax.swing.JButton btnPrintDocuments;
     private javax.swing.JButton btnRequestAccount;
     private javax.swing.JButton btnWithdrawal;
-    private javax.swing.JLabel imgSecondaryLogo;
+    public javax.swing.JLabel imgSecondaryLogo;
     private javax.swing.JLabel lblInstructions;
     // End of variables declaration//GEN-END:variables
 }

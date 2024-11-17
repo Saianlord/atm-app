@@ -80,9 +80,10 @@ public class NewUserWindow extends javax.swing.JPanel {
 
         add(pnlPlus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 660, 270, 270));
 
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\SecondaryLogo.jpeg")); // NOI18N
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/SecondaryLogo.png"))); // NOI18N
+        imgSecondaryLogo.setLabelFor(getComponentPopupMenu());
         imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 110, 130));
 
         txtUser.setBackground(new java.awt.Color(204, 204, 204));
         txtUser.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -198,7 +199,7 @@ public class NewUserWindow extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnNewUser;
-    private javax.swing.JLabel imgSecondaryLogo;
+    public javax.swing.JLabel imgSecondaryLogo;
     private javax.swing.JLabel lblInstructions1;
     private javax.swing.JLabel lblInstructions2;
     private javax.swing.JLabel lblInstructions3;
