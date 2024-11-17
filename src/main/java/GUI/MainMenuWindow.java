@@ -18,6 +18,7 @@ public class MainMenuWindow extends javax.swing.JPanel {
     private User user;
     private Generic4Window newAccountWindow;
     private AccountSelectionWindow accountSelectionWindow;
+    private Generic4Window printDocuments;
 
     /**
      * Creates new form MainManuWindow
@@ -114,6 +115,11 @@ public class MainMenuWindow extends javax.swing.JPanel {
         btnPrintDocuments.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnPrintDocuments.setForeground(new java.awt.Color(255, 255, 255));
         btnPrintDocuments.setText("Print documents");
+        btnPrintDocuments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintDocumentsActionPerformed(evt);
+            }
+        });
         add(btnPrintDocuments, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -138,6 +144,11 @@ public class MainMenuWindow extends javax.swing.JPanel {
         accountSelectionWindow = new AccountSelectionWindow(actualContainer, this, user, TransactionType.DEPOSIT);
         actualContainer.showPanel(accountSelectionWindow);
     }//GEN-LAST:event_btnMoneyDepositActionPerformed
+
+    private void btnPrintDocumentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintDocumentsActionPerformed
+        printDocuments = new Generic4Window(actualContainer, "PrintDocuments", user, this);
+        actualContainer.showPanel(printDocuments);
+    }//GEN-LAST:event_btnPrintDocumentsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

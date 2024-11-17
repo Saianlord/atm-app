@@ -95,6 +95,7 @@ public class LoginWindow extends javax.swing.JPanel {
         lblLogo.setText("Your trusted bank!");
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 700, 60));
 
+
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
         txtPassword.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -116,7 +117,7 @@ public class LoginWindow extends javax.swing.JPanel {
             System.out.println("user = " + user);
             System.out.println(actualContainer.aService.getAccountsByClientId(Long.parseLong(user.getId())));
             if (actualContainer.aService.getAccountsByClientId(Long.parseLong(user.getId())).isEmpty()) {
-                newAccountWindow = new Generic4Window(actualContainer, "NewUser", user, this);
+                newAccountWindow = new Generic4Window(actualContainer, "NewUser", this, user);
                 actualContainer.showPanel(newAccountWindow);
             } else {
                 mainMenuWindow = new MainMenuWindow(actualContainer, this, user);

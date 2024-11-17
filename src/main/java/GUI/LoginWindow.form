@@ -116,6 +116,7 @@
         </Constraint>
       </Constraints>
     </Component>
+
     <Component class="javax.swing.JPasswordField" name="txtPassword">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

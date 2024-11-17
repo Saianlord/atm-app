@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Models.TransactionType;
 import Models.User;
 import javax.swing.JOptionPane;
 
@@ -18,11 +19,12 @@ public class Generic4Window extends javax.swing.JPanel {
     private User user;
     private MainMenuWindow mainMenuWindow;
     private LoginWindow loginWindow;
+    private GenericShowWindow printDocuments;
     
     /**
      * Creates new form Generic4Window
      */
-    public Generic4Window(ATM actualContainer, String type, User user, LoginWindow loginWindow) {
+    public Generic4Window(ATM actualContainer, String type, LoginWindow loginWindow, User user) {
         this.actualContainer = actualContainer;
         this.type = type;
         this.user = user;
@@ -31,7 +33,7 @@ public class Generic4Window extends javax.swing.JPanel {
         fillText();
     }
     
-    public Generic4Window(ATM actualContainer, String type, User user, LoginWindow loginWindow,MainMenuWindow mainMenuWindow) {
+    public Generic4Window(ATM actualContainer, String type, User user, LoginWindow loginWindow, MainMenuWindow mainMenuWindow) {
         this.actualContainer = actualContainer;
         this.type = type;
         this.user = user;
@@ -41,6 +43,17 @@ public class Generic4Window extends javax.swing.JPanel {
         fillText();
     }
     
+    public Generic4Window(ATM actualContainer, String type, User user, MainMenuWindow mainMenuWindow) {
+        this.actualContainer = actualContainer;
+        this.type = type;
+        this.user = user;
+        this.mainMenuWindow = mainMenuWindow;
+        initComponents();
+        fillText();
+    }
+    
+    
+    
     
     private void fillText(){
         if (type.equals("NewUser") || type.equals("NewAccount")){
@@ -48,6 +61,11 @@ public class Generic4Window extends javax.swing.JPanel {
             lblInstructions2.setText("for the new account:");
             txtInput.setText("Account name");
             btnAction.setText("Create new account");
+        } else if (type.equals("PrintDocuments")){
+            lblInstructions1.setText("Enter the number of the");
+            lblInstructions2.setText("transaction to print:");
+            txtInput.setText("Transaction number");
+            btnAction.setText("Search");
         }
     }
 
@@ -125,14 +143,29 @@ public class Generic4Window extends javax.swing.JPanel {
     }//GEN-LAST:event_txtInputActionPerformed
 
     private void btnActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionActionPerformed
-        if(txtInput.getText().equals("Account name")){
-            JOptionPane.showMessageDialog(null, "Please change the account name.");
-        } else {
-            actualContainer.aService.addAccount(txtInput.getText(), Long.parseLong(user.getId()));
-            txtInput.setText("Account name");
-            JOptionPane.showMessageDialog(null, "Account created succesfully");
-            mainMenuWindow = new MainMenuWindow(actualContainer, loginWindow, user);
-            actualContainer.showPanel(mainMenuWindow);
+        if (type.equals("NewAccount")) {
+            if (txtInput.getText().equals("Account name")) {
+                JOptionPane.showMessageDialog(null, "Please change the account name.");
+            } else {
+                actualContainer.aService.addAccount(txtInput.getText(), Long.parseLong(user.getId()));
+                txtInput.setText("Account name");
+                JOptionPane.showMessageDialog(null, "Account created succesfully");
+                mainMenuWindow = new MainMenuWindow(actualContainer, loginWindow, user);
+                actualContainer.showPanel(mainMenuWindow);
+            }
+        } else if (type.equals("PrintDocuments")) {
+            printDocuments = new GenericShowWindow(actualContainer, this, user, mainMenuWindow, Integer.parseInt(txtInput.getText()));
+            actualContainer.showPanel(printDocuments);
+        } else if (type.equals("NewUser")) {
+            if (txtInput.getText().equals("Account name")) {
+                JOptionPane.showMessageDialog(null, "Please change the account name.");
+            } else {
+                actualContainer.aService.addAccount(txtInput.getText(), Long.parseLong(user.getId()));
+                txtInput.setText("Account name");
+                JOptionPane.showMessageDialog(null, "Account created succesfully");
+                mainMenuWindow = new MainMenuWindow(actualContainer, loginWindow, user);
+                actualContainer.showPanel(mainMenuWindow);
+            }
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnActionActionPerformed
@@ -141,6 +174,8 @@ public class Generic4Window extends javax.swing.JPanel {
         if (type.equals("NewUser")){
             actualContainer.showPanel(loginWindow); 
         } else if (type.equals("NewAccount")){
+            actualContainer.showPanel(mainMenuWindow); 
+        } else if (type.equals("PrintDocuments")){
             actualContainer.showPanel(mainMenuWindow); 
         }// TODO add your handling code here:
     }//GEN-LAST:event_btnBackActionPerformed
