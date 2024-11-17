@@ -4,17 +4,51 @@
  */
 package GUI;
 
+import Models.User;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author fgarr
  */
 public class Generic4Window extends javax.swing.JPanel {
 
+    private ATM actualContainer;
+    private String type;
+    private User user;
+    private MainMenuWindow mainMenuWindow;
+    private LoginWindow loginWindow;
+    
     /**
      * Creates new form Generic4Window
      */
-    public Generic4Window() {
+    public Generic4Window(ATM actualContainer, String type, User user, LoginWindow loginWindow) {
+        this.actualContainer = actualContainer;
+        this.type = type;
+        this.user = user;
+        this.loginWindow = loginWindow;
         initComponents();
+        fillText();
+    }
+    
+    public Generic4Window(ATM actualContainer, String type, User user, LoginWindow loginWindow,MainMenuWindow mainMenuWindow) {
+        this.actualContainer = actualContainer;
+        this.type = type;
+        this.user = user;
+        this.loginWindow = loginWindow;
+        this.mainMenuWindow = mainMenuWindow;
+        initComponents();
+        fillText();
+    }
+    
+    
+    private void fillText(){
+        if (type.equals("NewUser") || type.equals("NewAccount")){
+            lblInstructions1.setText("Please enter the name or purpose");
+            lblInstructions2.setText("for the new account:");
+            txtInput.setText("Account name");
+            btnAction.setText("Create new account");
+        }
     }
 
     /**
@@ -29,8 +63,9 @@ public class Generic4Window extends javax.swing.JPanel {
         imgSecondaryLogo = new javax.swing.JLabel();
         txtInput = new javax.swing.JTextField();
         btnAction = new javax.swing.JButton();
-        lblInstructions = new javax.swing.JLabel();
+        lblInstructions1 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
+        lblInstructions2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
@@ -63,16 +98,26 @@ public class Generic4Window extends javax.swing.JPanel {
         });
         add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 460, 70));
 
-        lblInstructions.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        lblInstructions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions.setText("TXT");
-        add(lblInstructions, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 700, 60));
+        lblInstructions1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions1.setText("TXT");
+        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 700, 60));
 
         btnBack.setBackground(new java.awt.Color(102, 102, 255));
         btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         btnBack.setForeground(new java.awt.Color(255, 255, 255));
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
+
+        lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions2.setText("TXT");
+        add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 700, 60));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputActionPerformed
@@ -80,15 +125,33 @@ public class Generic4Window extends javax.swing.JPanel {
     }//GEN-LAST:event_txtInputActionPerformed
 
     private void btnActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionActionPerformed
-        // TODO add your handling code here:
+        if(txtInput.getText().equals("Account name")){
+            JOptionPane.showMessageDialog(null, "Please change the account name.");
+        } else {
+            actualContainer.aService.addAccount(txtInput.getText(), Long.parseLong(user.getId()));
+            txtInput.setText("Account name");
+            JOptionPane.showMessageDialog(null, "Account created succesfully");
+            mainMenuWindow = new MainMenuWindow(actualContainer, loginWindow, user);
+            actualContainer.showPanel(mainMenuWindow);
+        }
+// TODO add your handling code here:
     }//GEN-LAST:event_btnActionActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (type.equals("NewUser")){
+            actualContainer.showPanel(loginWindow); 
+        } else if (type.equals("NewAccount")){
+            actualContainer.showPanel(mainMenuWindow); 
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAction;
     private javax.swing.JButton btnBack;
     private javax.swing.JLabel imgSecondaryLogo;
-    private javax.swing.JLabel lblInstructions;
+    private javax.swing.JLabel lblInstructions1;
+    private javax.swing.JLabel lblInstructions2;
     private javax.swing.JTextField txtInput;
     // End of variables declaration//GEN-END:variables
 }

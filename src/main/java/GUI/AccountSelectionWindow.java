@@ -4,17 +4,76 @@
  */
 package GUI;
 
+import Models.Account;
+import Models.Transaction;
+import Models.TransactionType;
+import Models.User;
+import java.util.List;
+
 /**
  *
  * @author fgarr
  */
 public class AccountSelectionWindow extends javax.swing.JPanel {
+    
+    private ATM actualFrame;
+    private MainMenuWindow mainMenuWindow;
+    private User user;
+    private TransactionType transactionType;
+    private List<Account> accountList;
+    private Generic7Window amountWindow;
 
     /**
      * Creates new form AccountSelectionWindow
      */
-    public AccountSelectionWindow() {
+    public AccountSelectionWindow(ATM actualFrame, MainMenuWindow mainMenuWindow, User user, TransactionType transactionType) {
+        this.actualFrame = actualFrame;
+        this.mainMenuWindow = mainMenuWindow;
+        this.user = user;
+        this.transactionType = transactionType;
         initComponents();
+        btnAccount1.setVisible(false);
+        btnAccount2.setVisible(false);
+        btnAccount3.setVisible(false);
+        btnAccount4.setVisible(false);
+        btnAccount5.setVisible(false);
+        fillTxt();
+    }
+    
+    private void fillTxt() {
+        accountList = actualFrame.aService.getAccountsByClientId(Long.parseLong(user.getId()));
+        for (int i = 0; i < accountList.size(); i++) {
+            switch (i) {
+                case 0:
+                    btnAccount1.setVisible(true);
+                    btnAccount1.setText(accountList.get(0).getName());
+                    break;
+                case 1:
+                    btnAccount2.setVisible(true);
+                    btnAccount2.setText(accountList.get(1).getName());
+                    break;
+                case 2:
+                    btnAccount3.setVisible(true); // Cambiar a true para mostrarlo
+                    btnAccount3.setText(accountList.get(2).getName());
+                    break;
+                case 3:
+                    btnAccount4.setVisible(true);
+                    btnAccount4.setText(accountList.get(3).getName());
+                    break;
+                case 4:
+                    btnAccount5.setVisible(true);
+                    btnAccount5.setText(accountList.get(4).getName());
+                    break;
+            }
+
+        }
+    }
+    
+    public void continueTransaction(int btn){
+        if((transactionType == TransactionType.DEPOSIT) || (transactionType == TransactionType.WITHDRAW)){
+            amountWindow = new Generic7Window(actualFrame, this, user, transactionType, accountList.get(btn), mainMenuWindow);
+            actualFrame.showPanel(amountWindow);
+        }
     }
 
     /**
@@ -48,18 +107,33 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
         btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         btnBack.setForeground(new java.awt.Color(255, 255, 255));
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
 
         btnAccount3.setBackground(new java.awt.Color(102, 102, 255));
         btnAccount3.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAccount3.setForeground(new java.awt.Color(255, 255, 255));
         btnAccount3.setText("Account 3");
+        btnAccount3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccount3ActionPerformed(evt);
+            }
+        });
         add(btnAccount3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 460, 70));
 
         btnAccount2.setBackground(new java.awt.Color(102, 102, 255));
         btnAccount2.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAccount2.setForeground(new java.awt.Color(255, 255, 255));
         btnAccount2.setText("Account 2");
+        btnAccount2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccount2ActionPerformed(evt);
+            }
+        });
         add(btnAccount2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 380, 460, 70));
 
         btnAccount1.setBackground(new java.awt.Color(102, 102, 255));
@@ -77,12 +151,22 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
         btnAccount4.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAccount4.setForeground(new java.awt.Color(255, 255, 255));
         btnAccount4.setText("Account 4");
+        btnAccount4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccount4ActionPerformed(evt);
+            }
+        });
         add(btnAccount4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 540, 460, 70));
 
         btnAccount5.setBackground(new java.awt.Color(102, 102, 255));
         btnAccount5.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAccount5.setForeground(new java.awt.Color(255, 255, 255));
         btnAccount5.setText("Account 5");
+        btnAccount5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccount5ActionPerformed(evt);
+            }
+        });
         add(btnAccount5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
 
         lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -99,8 +183,29 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAccount1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount1ActionPerformed
-        // TODO add your handling code here:
+        continueTransaction(0);
+// TODO add your handling code here:
     }//GEN-LAST:event_btnAccount1ActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        actualFrame.showPanel(mainMenuWindow);// TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnAccount2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount2ActionPerformed
+        continueTransaction(1);
+    }//GEN-LAST:event_btnAccount2ActionPerformed
+
+    private void btnAccount3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount3ActionPerformed
+        continueTransaction(2);
+    }//GEN-LAST:event_btnAccount3ActionPerformed
+
+    private void btnAccount4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount4ActionPerformed
+        continueTransaction(3);
+    }//GEN-LAST:event_btnAccount4ActionPerformed
+
+    private void btnAccount5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount5ActionPerformed
+        continueTransaction(4);
+    }//GEN-LAST:event_btnAccount5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

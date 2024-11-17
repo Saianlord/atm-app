@@ -1,6 +1,3 @@
-1|1|Ahorros|24979.5
-2|1|Gastos diarios|4999.9995
-3|2|Ahorros|20.5
-4|2|Gastos diarios|0.0
-5|3|Ahorros|10000.0
-6|3|Gastos diarios|0.0
+1|1|Nuestro sueno|20000.0
+2|1|Coco|0.0
+3|1|Toto|7500.0

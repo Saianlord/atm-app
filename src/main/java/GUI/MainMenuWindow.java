@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Models.TransactionType;
 import Models.User;
 
 /**
@@ -15,6 +16,8 @@ public class MainMenuWindow extends javax.swing.JPanel {
     private ATM actualContainer;
     private LoginWindow loginWindow;
     private User user;
+    private Generic4Window newAccountWindow;
+    private AccountSelectionWindow accountSelectionWindow;
 
     /**
      * Creates new form MainManuWindow
@@ -57,12 +60,22 @@ public class MainMenuWindow extends javax.swing.JPanel {
         btnMoneyDeposit.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnMoneyDeposit.setForeground(new java.awt.Color(255, 255, 255));
         btnMoneyDeposit.setText("Money deposit");
+        btnMoneyDeposit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoneyDepositActionPerformed(evt);
+            }
+        });
         add(btnMoneyDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 460, 70));
 
         btnWithdrawal.setBackground(new java.awt.Color(102, 102, 255));
         btnWithdrawal.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnWithdrawal.setForeground(new java.awt.Color(255, 255, 255));
         btnWithdrawal.setText("Withdrawal of funds");
+        btnWithdrawal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWithdrawalActionPerformed(evt);
+            }
+        });
         add(btnWithdrawal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 380, 460, 70));
 
         btnRequestAccount.setBackground(new java.awt.Color(102, 102, 255));
@@ -106,12 +119,26 @@ public class MainMenuWindow extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRequestAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestAccountActionPerformed
-        // TODO add your handling code here:
+        newAccountWindow = new Generic4Window(actualContainer, "NewAccount", user, loginWindow, this);
+        actualContainer.showPanel(newAccountWindow);
+// TODO add your handling code here:
     }//GEN-LAST:event_btnRequestAccountActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         actualContainer.showPanel(loginWindow);
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnWithdrawalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWithdrawalActionPerformed
+        accountSelectionWindow = new AccountSelectionWindow(actualContainer, this, user, TransactionType.WITHDRAW);
+        actualContainer.showPanel(accountSelectionWindow);
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnWithdrawalActionPerformed
+
+    private void btnMoneyDepositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoneyDepositActionPerformed
+        accountSelectionWindow = new AccountSelectionWindow(actualContainer, this, user, TransactionType.DEPOSIT);
+        actualContainer.showPanel(accountSelectionWindow);
+    }//GEN-LAST:event_btnMoneyDepositActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
