@@ -49,6 +49,7 @@ public class NewUserWindow extends javax.swing.JPanel {
         lblInstructions1 = new javax.swing.JLabel();
         lblInstructions2 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        lblInstructions4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
@@ -130,29 +131,35 @@ public class NewUserWindow extends javax.swing.JPanel {
         });
         add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 760, 210, 70));
 
-        lblInstructions3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 32)); // NOI18N
         lblInstructions3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions3.setText("with the following information:");
+        lblInstructions3.setText("start enjoying the benefits of our services");
         lblInstructions3.setToolTipText("");
-        add(lblInstructions3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 700, -1));
+        add(lblInstructions3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 700, -1));
 
-        lblInstructions1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 32)); // NOI18N
         lblInstructions1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions1.setText("Fidebank thanks you for wanting ");
+        lblInstructions1.setText("Welcome to Fidebank! We’re excited to have");
         lblInstructions1.setToolTipText("");
-        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 700, -1));
+        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, -1));
 
-        lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 32)); // NOI18N
         lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions2.setText("to be part of our family! Please");
+        lblInstructions2.setText("you join our family. Please provide the following");
         lblInstructions2.setToolTipText("");
-        add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 700, -1));
+        add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 700, -1));
 
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPassword.setText("Password");
         add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, 460, 70));
+
+        lblInstructions4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 32)); // NOI18N
+        lblInstructions4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions4.setText("information to create your new account and");
+        lblInstructions4.setToolTipText("");
+        add(lblInstructions4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 700, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
@@ -202,6 +209,7 @@ public class NewUserWindow extends javax.swing.JPanel {
     private javax.swing.JLabel lblInstructions1;
     private javax.swing.JLabel lblInstructions2;
     private javax.swing.JLabel lblInstructions3;
+    private javax.swing.JLabel lblInstructions4;
     private javax.swing.JLabel lblPlus;
     private javax.swing.JPanel pnlPlus;
     private javax.swing.JTextField txtNationalID;

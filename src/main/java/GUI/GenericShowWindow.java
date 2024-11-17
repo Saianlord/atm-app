@@ -4,19 +4,53 @@
  */
 package GUI;
 
+import Models.Account;
+import Models.Transaction;
+import Models.TransactionType;
+import Models.User;
+
+
 /**
  *
  * @author fgarr
  */
 public class GenericShowWindow extends javax.swing.JPanel {
+    
+    private ATM actualFrame;
+    private Generic7Window generic7Window;
+    private User user;
+    private Account account;
+    private Account account2;
+    private Transaction transaction;
+    private MainMenuWindow mainMenuWindow;
+    private TransactionType transactionType;
 
     /**
      * Creates new form GenericShowWindow
      */
-    public GenericShowWindow() {
+    public GenericShowWindow(ATM actualFrame, Generic7Window generic7Window, User user, Account account, Account account2, Transaction transaction, MainMenuWindow mainMenuWindow, TransactionType transactionType) {
+        this.actualFrame = actualFrame;
+        this.generic7Window = generic7Window;
+        this.user = user;
+        this.account = this.actualFrame.aService.getAccountById(account.getId());
+        this.account2 = account2;
+        this.transaction = transaction;
+        this.mainMenuWindow = mainMenuWindow;
+        this.transactionType = transactionType;
         initComponents();
+        
+        fillTxt();
+      
     }
 
+    private void fillTxt() {
+        lblInfo1.setText("Transaction type: " + transaction.getType());
+        lblInfo2.setText("User: " + user.getName());
+        lblInfo3.setText("Origin account name: " + account.getName());
+        lblInfo4.setText("Destiny account name: " + account.getName());
+        lblInfo5.setText("Ammount of the transaction: $" + transaction.getAmount());
+        lblInfo6.setText("Current origin acount balance: $" + account.getBalance());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,41 +61,45 @@ public class GenericShowWindow extends javax.swing.JPanel {
     private void initComponents() {
 
         imgSecondaryLogo = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
         btnAction = new javax.swing.JButton();
         lblInstructions1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblInfo6 = new javax.swing.JLabel();
+        lblInfo1 = new javax.swing.JLabel();
+        lblInfo2 = new javax.swing.JLabel();
+        lblInfo3 = new javax.swing.JLabel();
+        lblInfo4 = new javax.swing.JLabel();
+        lblInfo5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\SecondaryLogo.jpeg")); // NOI18N
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/SecondaryLogo.jpeg"))); // NOI18N
         imgSecondaryLogo.setText("jLabel1");
         add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
-
-        jTextField1.setBackground(new java.awt.Color(204, 204, 204));
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("INFORMATION");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 600, 430));
 
         btnBack.setBackground(new java.awt.Color(102, 102, 255));
         btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         btnBack.setForeground(new java.awt.Color(255, 255, 255));
-        btnBack.setText("Back");
+        btnBack.setText("Main menu");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
 
         btnAction.setBackground(new java.awt.Color(102, 102, 255));
         btnAction.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAction.setForeground(new java.awt.Color(255, 255, 255));
         btnAction.setText("Print");
+        btnAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActionActionPerformed(evt);
+            }
+        });
         add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 670, 460, 70));
 
         lblInstructions1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -69,18 +107,75 @@ public class GenericShowWindow extends javax.swing.JPanel {
         lblInstructions1.setText("Transaction summary!");
         lblInstructions1.setToolTipText("");
         add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 700, -1));
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblInfo6.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lblInfo6.setForeground(new java.awt.Color(102, 102, 102));
+        lblInfo6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo6.setText("jLabel1");
+        jPanel1.add(lblInfo6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 590, 30));
+
+        lblInfo1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lblInfo1.setForeground(new java.awt.Color(102, 102, 102));
+        lblInfo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo1.setText("jLabel1");
+        jPanel1.add(lblInfo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 590, 30));
+
+        lblInfo2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lblInfo2.setForeground(new java.awt.Color(102, 102, 102));
+        lblInfo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo2.setText("jLabel1");
+        jPanel1.add(lblInfo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 590, 30));
+
+        lblInfo3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lblInfo3.setForeground(new java.awt.Color(102, 102, 102));
+        lblInfo3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo3.setText("jLabel1");
+        jPanel1.add(lblInfo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 590, 30));
+
+        lblInfo4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lblInfo4.setForeground(new java.awt.Color(102, 102, 102));
+        lblInfo4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo4.setText("jLabel1");
+        jPanel1.add(lblInfo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 590, 30));
+
+        lblInfo5.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lblInfo5.setForeground(new java.awt.Color(102, 102, 102));
+        lblInfo5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo5.setText("jLabel1");
+        jPanel1.add(lblInfo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 590, 30));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 600, 433));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        actualFrame.showPanel(mainMenuWindow);// TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionActionPerformed
+        System.out.println("\n\n\nTransaction summaty:");
+        System.out.println("\n\n" + lblInfo1.getText());
+        System.out.println("\n" + lblInfo2.getText());
+        System.out.println("\n" + lblInfo3.getText());
+        System.out.println("\n" + lblInfo4.getText());
+        System.out.println("\n" + lblInfo5.getText());
+        System.out.println("\n" + lblInfo6.getText());
+        System.out.println("\n\n\n");
+    }//GEN-LAST:event_btnActionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAction;
     private javax.swing.JButton btnBack;
     private javax.swing.JLabel imgSecondaryLogo;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblInfo1;
+    private javax.swing.JLabel lblInfo2;
+    private javax.swing.JLabel lblInfo3;
+    private javax.swing.JLabel lblInfo4;
+    private javax.swing.JLabel lblInfo5;
+    private javax.swing.JLabel lblInfo6;
     private javax.swing.JLabel lblInstructions1;
     // End of variables declaration//GEN-END:variables
 }

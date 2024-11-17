@@ -16,6 +16,7 @@ public class LoginWindow extends javax.swing.JPanel {
     private MainMenuWindow mainMenuWindow;
     private NewUserWindow newUserWindow;
     private ATM actualContainer;
+    private Generic4Window newAccountWindow;
 
     /**
      * Creates new form LoginWindow
@@ -90,7 +91,7 @@ public class LoginWindow extends javax.swing.JPanel {
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 700, 60));
 
         imgMainLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imgMainLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\MainLogo.jpeg")); // NOI18N
+        imgMainLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/MainLogo.jpeg"))); // NOI18N
         add(imgMainLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 700, 190));
 
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
@@ -109,8 +110,14 @@ public class LoginWindow extends javax.swing.JPanel {
         if (actualContainer.uService.login(txtUser.getText(), txtPassword.getText())) {
             User user = actualContainer.uRepo.getUserByUser(txtUser.getText());
             System.out.println("user = " + user);
-            mainMenuWindow = new MainMenuWindow(actualContainer, this, user);
-            actualContainer.showPanel(mainMenuWindow);
+            System.out.println(actualContainer.aService.getAccountsByClientId(Long.parseLong(user.getId())));
+            if (actualContainer.aService.getAccountsByClientId(Long.parseLong(user.getId())).isEmpty()) {
+                newAccountWindow = new Generic4Window(actualContainer, "NewUser", user, this);
+                actualContainer.showPanel(newAccountWindow);
+            } else {
+                mainMenuWindow = new MainMenuWindow(actualContainer, this, user);
+                actualContainer.showPanel(mainMenuWindow);
+            }
             clearTxt();
         } else {
             txtUser.setText("User");
@@ -142,7 +149,7 @@ public class LoginWindow extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddService;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JLabel imgMainLogo;
+    public javax.swing.JLabel imgMainLogo;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;

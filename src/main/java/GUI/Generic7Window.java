@@ -4,17 +4,73 @@
  */
 package GUI;
 
+import Models.Account;
+import Models.IdType;
+import Models.Transaction;
+import Models.TransactionType;
+import Models.User;
+import java.io.IOException;
+
 /**
  *
  * @author fgarr
  */
 public class Generic7Window extends javax.swing.JPanel {
+    
+    private ATM actualFrame;
+    private AccountSelectionWindow accountSelectionWindow;
+    private User user;
+    private TransactionType transactionType;
+    private Account account;
+    private Account account2;
+    private Transaction transaction;
+    private MainMenuWindow mainMenuWindow;
+    private GenericShowWindow genericShowWindow;
+
 
     /**
      * Creates new form Generic7Window
      */
-    public Generic7Window() {
+    public Generic7Window(ATM actualFrame, AccountSelectionWindow accountSelectionWindow, User user, TransactionType transactionType, Account account, MainMenuWindow mainMenuWindoW) {
+        this.actualFrame = actualFrame;
+        this.accountSelectionWindow = accountSelectionWindow;
+        this.user = user;
+        this.transactionType = transactionType;
+        this.account = account;
+        this.mainMenuWindow = mainMenuWindoW;
         initComponents();
+        filltxt(); 
+    }
+    
+    public Generic7Window(ATM actualFrame, AccountSelectionWindow accountSelectionWindow, User user, TransactionType transactionType, Account account, Account account2, MainMenuWindow mainMenuWindoW) {
+        this.actualFrame = actualFrame;
+        this.accountSelectionWindow = accountSelectionWindow;
+        this.user = user;
+        this.transactionType = transactionType;
+        this.account = account;
+        this.account2 = account2;
+        initComponents();
+        filltxt(); 
+    }
+    
+    public void filltxt(){
+        lblInstructions3.setText("$ " + account.getBalance());
+        if (transactionType.equals(TransactionType.WITHDRAW)){
+            lblInstructions4.setText("Please enter the amount you");
+            lblInstructions5.setText("would like to withdraw:");
+            txtInput.setText("Ammount");
+            btnAction.setText("Withdraw founds now");
+        } else if (transactionType.equals(TransactionType.DEPOSIT)){
+            lblInstructions4.setText("Please enter the amount you");
+            lblInstructions5.setText("would like to deposit:");
+            txtInput.setText("Ammount");
+            btnAction.setText("Deposit founds now");
+        } else {
+            lblInstructions4.setText("Please enter the amount you");
+            lblInstructions5.setText("would like to transfer:");
+            txtInput.setText("Ammount");
+            btnAction.setText("Transfer founds now");
+        }
     }
 
     /**
@@ -28,12 +84,13 @@ public class Generic7Window extends javax.swing.JPanel {
 
         imgSecondaryLogo = new javax.swing.JLabel();
         lblInstructions3 = new javax.swing.JLabel();
-        lblInstructions4 = new javax.swing.JLabel();
+        lblInstructions5 = new javax.swing.JLabel();
         lblInstructions2 = new javax.swing.JLabel();
         lblInstructions1 = new javax.swing.JLabel();
         txtInput = new javax.swing.JTextField();
         btnAction = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        lblInstructions4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
@@ -49,11 +106,11 @@ public class Generic7Window extends javax.swing.JPanel {
         lblInstructions3.setToolTipText("");
         add(lblInstructions3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, -1));
 
-        lblInstructions4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        lblInstructions4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions4.setText("TXT");
-        lblInstructions4.setToolTipText("");
-        add(lblInstructions4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 700, -1));
+        lblInstructions5.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions5.setText("TXT");
+        lblInstructions5.setToolTipText("");
+        add(lblInstructions5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, -1));
 
         lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
         lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -83,28 +140,79 @@ public class Generic7Window extends javax.swing.JPanel {
         btnAction.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAction.setForeground(new java.awt.Color(255, 255, 255));
         btnAction.setText("TXT");
+        btnAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActionActionPerformed(evt);
+            }
+        });
         add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 610, 460, 70));
 
         btnBack.setBackground(new java.awt.Color(102, 102, 255));
         btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         btnBack.setForeground(new java.awt.Color(255, 255, 255));
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
+
+        lblInstructions4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions4.setText("TXT");
+        lblInstructions4.setToolTipText("");
+        add(lblInstructions4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 700, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtInputActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        actualFrame.showPanel(accountSelectionWindow);// TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionActionPerformed
+        try {
+        if (transactionType.equals(TransactionType.WITHDRAW)) {
+            actualFrame.tservice.addTransaction(TransactionType.WITHDRAW, "Withdraw", account.getId(), account.getId(), Float.parseFloat(txtInput.getText()));
+            transaction = actualFrame.tservice.getTransactionById(actualFrame.idService.getLastId(IdType.TRANSACTIONID));
+            txtInput.setText("Ammount");
+            actualFrame.showPanel(mainMenuWindow);
+            genericShowWindow = new GenericShowWindow(actualFrame, this, user, account, account, transaction, mainMenuWindow, transactionType);
+            actualFrame.showPanel(genericShowWindow);
+        } else if (transactionType.equals(TransactionType.DEPOSIT)) {
+            actualFrame.tservice.addTransaction(TransactionType.DEPOSIT, "Deposit", account.getId(), account.getId(), Float.parseFloat(txtInput.getText()));
+            transaction = actualFrame.tservice.getTransactionById(actualFrame.idService.getLastId(IdType.TRANSACTIONID));
+            txtInput.setText("Ammount");
+            actualFrame.showPanel(mainMenuWindow);
+            genericShowWindow = new GenericShowWindow(actualFrame, this, user, account, account, transaction, mainMenuWindow, transactionType);
+            actualFrame.showPanel(genericShowWindow);
+        } else {
+            actualFrame.tservice.addTransaction(TransactionType.TRANSFER, "Transfer", account.getId(), account2.getId(), Float.parseFloat(txtInput.getText()));
+            transaction = actualFrame.tservice.getTransactionById(actualFrame.idService.getLastId(IdType.TRANSACTIONID));
+            txtInput.setText("Ammount");
+            actualFrame.showPanel(mainMenuWindow);
+            genericShowWindow = new GenericShowWindow(actualFrame, this, user, account, account, transaction, mainMenuWindow, transactionType);
+            actualFrame.showPanel(genericShowWindow);
+        }
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+            // TODO add your handling code here:
+    }//GEN-LAST:event_btnActionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAction;
     private javax.swing.JButton btnBack;
-    private javax.swing.JLabel imgSecondaryLogo;
+    public javax.swing.JLabel imgSecondaryLogo;
     private javax.swing.JLabel lblInstructions1;
     private javax.swing.JLabel lblInstructions2;
     private javax.swing.JLabel lblInstructions3;
     private javax.swing.JLabel lblInstructions4;
+    private javax.swing.JLabel lblInstructions5;
     private javax.swing.JTextField txtInput;
     // End of variables declaration//GEN-END:variables
 }
