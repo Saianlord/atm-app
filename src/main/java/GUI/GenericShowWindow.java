@@ -8,6 +8,7 @@ import Models.Account;
 import Models.Transaction;
 import Models.TransactionType;
 import Models.User;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -18,12 +19,14 @@ public class GenericShowWindow extends javax.swing.JPanel {
     
     private ATM actualFrame;
     private Generic7Window generic7Window;
+    private Generic4Window generic4Window;
     private User user;
     private Account account;
     private Account account2;
     private Transaction transaction;
     private MainMenuWindow mainMenuWindow;
     private TransactionType transactionType;
+    private int id;
 
     /**
      * Creates new form GenericShowWindow
@@ -37,19 +40,43 @@ public class GenericShowWindow extends javax.swing.JPanel {
         this.transaction = transaction;
         this.mainMenuWindow = mainMenuWindow;
         this.transactionType = transactionType;
+        id = 0;
         initComponents();
-        
         fillTxt();
-      
+    }
+    
+    public GenericShowWindow(ATM actualFrame, Generic4Window generic4Window, User user, MainMenuWindow mainMenuWindow, int id){
+        this.actualFrame = actualFrame;
+        this.generic4Window = generic4Window;
+        this.user = user;
+        this.id = id;
+        this.transaction = actualFrame.tservice.getTransactionById(id);
+        this.account = actualFrame.aService.getAccountById(transaction.getOriginAccount());
+        this.account2 = actualFrame.aService.getAccountById(transaction.getDestinyAccount());
+        this.mainMenuWindow = mainMenuWindow;
+        initComponents();
+        fillTxt();
     }
 
     private void fillTxt() {
-        lblInfo1.setText("Transaction type: " + transaction.getType());
-        lblInfo2.setText("User: " + user.getName());
-        lblInfo3.setText("Origin account name: " + account.getName());
-        lblInfo4.setText("Destiny account name: " + account.getName());
-        lblInfo5.setText("Ammount of the transaction: $" + transaction.getAmount());
-        lblInfo6.setText("Current origin acount balance: $" + account.getBalance());
+        if (account.getClientId() == Integer.parseInt(user.getId())){
+            lblInfo1.setText("Transaction type: " + transaction.getType());
+            lblInfo2.setText("User: " + user.getName());
+            lblInfo3.setText("Origin account name: " + account.getName());
+            lblInfo4.setText("Destiny account name: " + account.getName());
+            lblInfo5.setText("Ammount of the transaction: $" + transaction.getAmount());
+            lblInfo6.setText("Current origin acount balance: $" + account.getBalance());
+            if (id != 0) {
+                lblInfo6.setText("");
+            }
+        } else {
+            lblInfo1.setText("The transaction");
+            lblInfo2.setText("");
+            lblInfo3.setText("does not belong" );
+            lblInfo4.setText("");
+            lblInfo5.setText("to the selected user!!!");
+            lblInfo6.setText("");
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +88,7 @@ public class GenericShowWindow extends javax.swing.JPanel {
     private void initComponents() {
 
         imgSecondaryLogo = new javax.swing.JLabel();
-        btnBack = new javax.swing.JButton();
+        btnMainMenu = new javax.swing.JButton();
         btnAction = new javax.swing.JButton();
         lblInstructions1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -76,20 +103,20 @@ public class GenericShowWindow extends javax.swing.JPanel {
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/SecondaryLogo.jpeg"))); // NOI18N
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\images\\SecondaryLogo.jpeg")); // NOI18N
         imgSecondaryLogo.setText("jLabel1");
         add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
 
-        btnBack.setBackground(new java.awt.Color(102, 102, 255));
-        btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
-        btnBack.setForeground(new java.awt.Color(255, 255, 255));
-        btnBack.setText("Main menu");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
+        btnMainMenu.setBackground(new java.awt.Color(102, 102, 255));
+        btnMainMenu.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
+        btnMainMenu.setForeground(new java.awt.Color(255, 255, 255));
+        btnMainMenu.setText("Main menu");
+        btnMainMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
+                btnMainMenuActionPerformed(evt);
             }
         });
-        add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
+        add(btnMainMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 830, 200, 70));
 
         btnAction.setBackground(new java.awt.Color(102, 102, 255));
         btnAction.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
@@ -149,12 +176,12 @@ public class GenericShowWindow extends javax.swing.JPanel {
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 600, 433));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+    private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
         actualFrame.showPanel(mainMenuWindow);// TODO add your handling code here:
-    }//GEN-LAST:event_btnBackActionPerformed
+    }//GEN-LAST:event_btnMainMenuActionPerformed
 
     private void btnActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionActionPerformed
-        System.out.println("\n\n\nTransaction summaty:");
+        System.out.println("\n\n\nTransaction summary:");
         System.out.println("\n\n" + lblInfo1.getText());
         System.out.println("\n" + lblInfo2.getText());
         System.out.println("\n" + lblInfo3.getText());
@@ -167,7 +194,7 @@ public class GenericShowWindow extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAction;
-    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnMainMenu;
     private javax.swing.JLabel imgSecondaryLogo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblInfo1;
