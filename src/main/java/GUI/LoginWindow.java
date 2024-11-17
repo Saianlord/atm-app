@@ -5,7 +5,11 @@
 package GUI;
 
 import Models.User;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,9 +17,10 @@ import javax.swing.JOptionPane;
  */
 public class LoginWindow extends javax.swing.JPanel {
 
+    MainLogo logo = new MainLogo();
     private MainMenuWindow mainMenuWindow;
     private NewUserWindow newUserWindow;
-    private ATM actualContainer;
+    private final ATM actualContainer;
     private Generic4Window newAccountWindow;
 
     /**
@@ -41,8 +46,8 @@ public class LoginWindow extends javax.swing.JPanel {
         txtUser = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
-        imgMainLogo = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        lblimage = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(122, 122, 255), 5, true));
@@ -90,9 +95,6 @@ public class LoginWindow extends javax.swing.JPanel {
         lblLogo.setText("Your trusted bank!");
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 700, 60));
 
-        imgMainLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imgMainLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\images\\MainLogo.jpeg")); // NOI18N
-        add(imgMainLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 700, 190));
 
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
         txtPassword.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -104,6 +106,9 @@ public class LoginWindow extends javax.swing.JPanel {
             }
         });
         add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
+
+        lblimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MainLogo.png"))); // NOI18N
+        add(lblimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 180, 210));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -149,9 +154,29 @@ public class LoginWindow extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddService;
     private javax.swing.JButton btnLogin;
-    public javax.swing.JLabel imgMainLogo;
     private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblimage;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+class MainLogo extends JPanel {
+        private final Image imagen;
+        public MainLogo() {
+            
+        imagen = new ImageIcon(getClass().getResource("/images/MainLogo.png")).getImage();
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+          
+            super.paintComponent(g);
+            if (imagen!=null){
+                gdrawImagen(imagen, 0, 0, getWidth(), getHeight(), this);
+            }
+                            
+        }
+
+        private void gdrawImagen(Image imagen, int i, int i0, int width, int height, MainLogo aThis) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+        }
 }
