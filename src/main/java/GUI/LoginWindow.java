@@ -95,7 +95,6 @@ public class LoginWindow extends javax.swing.JPanel {
         lblLogo.setText("Your trusted bank!");
         add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 700, 60));
 
-
         txtPassword.setBackground(new java.awt.Color(204, 204, 204));
         txtPassword.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
         txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -108,7 +107,7 @@ public class LoginWindow extends javax.swing.JPanel {
         add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
 
         lblimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MainLogo.png"))); // NOI18N
-        add(lblimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 180, 210));
+        add(lblimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 150, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -160,23 +159,25 @@ public class LoginWindow extends javax.swing.JPanel {
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 class MainLogo extends JPanel {
+
         private final Image imagen;
         public MainLogo() {
-            
-        imagen = new ImageIcon(getClass().getResource("/images/MainLogo.png")).getImage();
+
+            imagen = new ImageIcon(getClass().getResource("/images/MainLogo.png")).getImage();
         }
+
         @Override
         protected void paintComponent(Graphics g) {
-          
+
             super.paintComponent(g);
-            if (imagen!=null){
+            if (imagen != null) {
                 gdrawImagen(imagen, 0, 0, getWidth(), getHeight(), this);
             }
-                            
+
         }
 
         private void gdrawImagen(Image imagen, int i, int i0, int width, int height, MainLogo aThis) {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
-        }
+    }
 }

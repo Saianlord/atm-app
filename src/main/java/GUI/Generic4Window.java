@@ -4,8 +4,14 @@
  */
 package GUI;
 
+import Models.Account;
+import Models.IdType;
+import Models.Transaction;
 import Models.TransactionType;
 import Models.User;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,6 +26,12 @@ public class Generic4Window extends javax.swing.JPanel {
     private MainMenuWindow mainMenuWindow;
     private LoginWindow loginWindow;
     private GenericShowWindow printDocuments;
+    private Generic7Window generic7Window;
+    private Account account1;
+    private Account account2;
+    private Transaction transaction;
+    private TransactionType transactionType;
+    private Float numberInput;
     
     /**
      * Creates new form Generic4Window
@@ -29,6 +41,20 @@ public class Generic4Window extends javax.swing.JPanel {
         this.type = type;
         this.user = user;
         this.loginWindow = loginWindow;
+        initComponents();
+        fillText();
+    }
+    
+    public Generic4Window(ATM actualConainer, Generic7Window generic7Window, User user, TransactionType transactionType, Account account1, Account account2, MainMenuWindow mainMenuWindow, Float numberInput, String type){
+        this.actualContainer = actualConainer;
+        this.generic7Window = generic7Window;
+        this.user = user;
+        this.transactionType = transactionType;
+        this.account1 = account1;
+        this.account2 = account2;
+        this.mainMenuWindow = mainMenuWindow;
+        this.numberInput = numberInput;
+        this.type = type;
         initComponents();
         fillText();
     }
@@ -66,6 +92,11 @@ public class Generic4Window extends javax.swing.JPanel {
             lblInstructions2.setText("transaction to print:");
             txtInput.setText("Transaction number");
             btnAction.setText("Search");
+        } else if (type.equals("Transfer")){
+            lblInstructions1.setText("Enter the number of the");
+            lblInstructions2.setText("destiny account:");
+            txtInput.setText("Destiny account");
+            btnAction.setText("Transfer now!");
         }
     }
 
@@ -78,20 +109,16 @@ public class Generic4Window extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imgSecondaryLogo = new javax.swing.JLabel();
         txtInput = new javax.swing.JTextField();
         btnAction = new javax.swing.JButton();
         lblInstructions1 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         lblInstructions2 = new javax.swing.JLabel();
+        imgSecondaryLogo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
-        imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 130));
 
         txtInput.setBackground(new java.awt.Color(204, 204, 204));
         txtInput.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -136,6 +163,10 @@ public class Generic4Window extends javax.swing.JPanel {
         lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblInstructions2.setText("TXT");
         add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 700, 60));
+
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
+        imgSecondaryLogo.setText("jLabel1");
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputActionPerformed
@@ -154,7 +185,14 @@ public class Generic4Window extends javax.swing.JPanel {
                 actualContainer.showPanel(mainMenuWindow);
             }
         } else if (type.equals("PrintDocuments")) {
-            printDocuments = new GenericShowWindow(actualContainer, this, user, mainMenuWindow, Integer.parseInt(txtInput.getText()));
+            int transactionNumber = 0;
+            try {
+                transactionNumber = Integer.parseInt(txtInput.getText());
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Please enter a numeric value");
+                return;
+            }
+            printDocuments = new GenericShowWindow(actualContainer, this, user, mainMenuWindow, transactionNumber);
             actualContainer.showPanel(printDocuments);
         } else if (type.equals("NewUser")) {
             if (txtInput.getText().equals("Account name")) {
@@ -166,6 +204,24 @@ public class Generic4Window extends javax.swing.JPanel {
                 mainMenuWindow = new MainMenuWindow(actualContainer, loginWindow, user);
                 actualContainer.showPanel(mainMenuWindow);
             }
+        } else if (type.equals("Transfer")){
+            int transactionNumber = 0;
+            try {
+                transactionNumber = Integer.parseInt(txtInput.getText());
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Please enter a numeric value");
+                return;
+            }
+         
+            account2 = actualContainer.aService.getAccountById(transactionNumber);
+            actualContainer.tservice.addTransaction(TransactionType.TRANSFER, "Transfer", account1.getId(), account2.getId(), numberInput);
+            try {
+                transaction = actualContainer.tservice.getTransactionById(actualContainer.idService.getLastId(IdType.TRANSACTIONID));
+            } catch (IOException ex) {
+                System.out.println("Error");
+            }
+            printDocuments = new GenericShowWindow(actualContainer, this, user, account1, account2, transaction, mainMenuWindow, transactionType);
+            actualContainer.showPanel(printDocuments);
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnActionActionPerformed
