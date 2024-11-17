@@ -81,9 +81,9 @@ public class NewUserWindow extends javax.swing.JPanel {
 
         add(pnlPlus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 660, 270, 270));
 
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\SecondaryLogo.jpeg")); // NOI18N
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
         imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 100, 110));
 
         txtUser.setBackground(new java.awt.Color(204, 204, 204));
         txtUser.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N

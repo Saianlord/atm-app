@@ -96,9 +96,9 @@ public class Generic7Window extends javax.swing.JPanel {
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\fgarr\\Desktop\\Carpetas\\Nando\\U\\Fidélitas\\III Cuatrimestre\\5. Programación Cliente-Servidor Concurrente\\Proyecto\\Avance #2\\atm-app\\src\\main\\java\\Images\\SecondaryLogo.jpeg")); // NOI18N
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
         imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 130));
 
         lblInstructions3.setFont(new java.awt.Font("Franklin Gothic Book", 1, 36)); // NOI18N
         lblInstructions3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
