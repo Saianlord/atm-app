@@ -3,22 +3,36 @@ package Services;
 import Models.Account;
 import Models.Operation;
 import Repositories.UserRepository;
+import Models.User;
 
 public class UserService {
 
-    private UserRepository repo;
+    private final UserRepository userRepository;
+    private final IdCounterService idCounterService;
 
-    public UserService(UserRepository repo) {
-        this.repo = repo;
+    public UserService(UserRepository userRepository, IdCounterService idCounterService) {
+        this.userRepository = userRepository;
+        this.idCounterService = idCounterService;
     }
+    
+    
+  
+    public boolean login(String userName, String pin) {
+        User user = userRepository.getUserByUser(userName);
+        System.out.println(userName);
+        System.out.println(pin);
+        return user != null && user.getPin().equals(pin);
+    }
+    
 
-
-    /*
-    La clase UserService utiliza los métodos de la clase UserRepository, que serían para Crear, Leer, Modificar y eliminar de la base de datos.
-
-    La diferencia es que la lógica del negocio se agrega aquí. Por ejemplo, en la clase repository podemos tener un método para leer todos los usuarios,
-    y en la clase service llamamos ese método, pero límitamos los resultados solo a los clientes activos.
-     */
-
+   
+    public boolean createUser(String userId, String name, String idNumber, String pin) {
+        User user = new User();
+        user.setId(userId);
+        user.setName(name);
+        user.setNationalId(idNumber);
+        user.setPin(pin);
+        return userRepository.createUserInFile(user);
+    }
 
 }

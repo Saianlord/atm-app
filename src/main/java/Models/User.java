@@ -5,26 +5,33 @@ import Exceptions.UserExceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class User {
-    private Long id;
+public class User {
+    private String id;
     private String nationalId;
-    private int pin;
-    private List<Account> accounts;
+    private String name;
+    private String pin;
 
     /*
     El tipo de usuario Admin no puede tener cuentas, ya que este tipo de usuario es usado solo para
     gestionar ciertas cosas a las que los clientes no pueden acceder.
 
      */
-
-    public User(String nationalId, int pin, boolean isClient ) {
+    public User(){
+        
+    }
+    public User(String nationalId, String name, String id, String pin) {
         this.nationalId = nationalId;
+        this.name = name;
+        this.id = id;
         this.pin = pin;
-        this.accounts = isClient ? new ArrayList<>() : null;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNationalId() {
@@ -35,26 +42,26 @@ public abstract class User {
         this.nationalId = nationalId;
     }
 
-    public int getPin() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPin() {
         return pin;
     }
 
-    public void setPin(int pin) {
+    public void setPin(String pin) {
         this.pin = pin;
     }
 
-    public List<Account> getAccounts() {
-        if (this.accounts == null) {
-            throw new UserExceptions("This type of user doesn't have accounts");
-        }
-        return this.accounts;
-    }
 
-    public void addAccount(Account account) {
-        if (this.accounts == null) {
-            throw new UserExceptions("This type of user can't have accounts");
-        }
-        this.accounts.add(account);
+    @Override
+    public String toString() {
+        return id + "|" + nationalId + "|" + name + "|" + pin;
     }
 
 

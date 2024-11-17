@@ -4,16 +4,28 @@
  */
 package GUI;
 
+import Models.IdType;
+import Repositories.UserRepository;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author fgarr
  */
 public class NewUserWindow extends javax.swing.JPanel {
+    
+    private ATM actualContainer;
+    private LoginWindow loginWindow;
 
     /**
      * Creates new form NewUserWindow
      */
-    public NewUserWindow() {
+    public NewUserWindow(ATM actualContainer, LoginWindow loginWindow) {
+        this.actualContainer = actualContainer;
+        this.loginWindow = loginWindow;
         initComponents();
     }
 
@@ -30,13 +42,13 @@ public class NewUserWindow extends javax.swing.JPanel {
         lblPlus = new javax.swing.JLabel();
         imgSecondaryLogo = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
-        txtID = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
+        txtNationalID = new javax.swing.JTextField();
         btnNewUser = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         lblInstructions3 = new javax.swing.JLabel();
         lblInstructions1 = new javax.swing.JLabel();
         lblInstructions2 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
@@ -84,29 +96,17 @@ public class NewUserWindow extends javax.swing.JPanel {
         });
         add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, 460, 70));
 
-        txtID.setBackground(new java.awt.Color(204, 204, 204));
-        txtID.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        txtID.setForeground(new java.awt.Color(153, 153, 153));
-        txtID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtID.setText("National ID");
-        txtID.addActionListener(new java.awt.event.ActionListener() {
+        txtNationalID.setBackground(new java.awt.Color(204, 204, 204));
+        txtNationalID.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        txtNationalID.setForeground(new java.awt.Color(153, 153, 153));
+        txtNationalID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNationalID.setText("National ID");
+        txtNationalID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDActionPerformed(evt);
+                txtNationalIDActionPerformed(evt);
             }
         });
-        add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 390, 460, 70));
-
-        txtPassword.setBackground(new java.awt.Color(204, 204, 204));
-        txtPassword.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(153, 153, 153));
-        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPassword.setText("Password");
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
-        add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, 460, 70));
+        add(txtNationalID, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 390, 460, 70));
 
         btnNewUser.setBackground(new java.awt.Color(102, 102, 255));
         btnNewUser.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -123,6 +123,11 @@ public class NewUserWindow extends javax.swing.JPanel {
         btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         btnBack.setForeground(new java.awt.Color(255, 255, 255));
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 760, 210, 70));
 
         lblInstructions3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -142,23 +147,52 @@ public class NewUserWindow extends javax.swing.JPanel {
         lblInstructions2.setText("to be part of our family! Please");
         lblInstructions2.setToolTipText("");
         add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 700, -1));
+
+        txtPassword.setBackground(new java.awt.Color(204, 204, 204));
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPassword.setText("Password");
+        add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, 460, 70));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserActionPerformed
 
-    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+    private void txtNationalIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNationalIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDActionPerformed
-
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
+    }//GEN-LAST:event_txtNationalIDActionPerformed
 
     private void btnNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewUserActionPerformed
-        // TODO add your handling code here:
+        if (txtNationalID.getText().isBlank() || txtUser.getText().isBlank() || txtUser.getText().isBlank()){
+            JOptionPane.showMessageDialog(null, "Please fill all the required fields.");
+        } else {
+            if (actualContainer.uRepo.getUserByUser(txtUser.getText()) == null){
+                try {
+                    actualContainer.uService.createUser(String.valueOf(actualContainer.idService.getLastId(IdType.USERID) + 1), txtUser.getText(), txtNationalID.getText(), txtPassword.getText());
+                    actualContainer.idService.saveCounter(IdType.USERID, (actualContainer.idService.getLastId(IdType.USERID) + 1));
+                    JOptionPane.showMessageDialog(null, "The user has been created successfully!");
+                    actualContainer.showPanel(loginWindow);
+                    clearTxt();
+                } catch (IOException ex) {
+                    Logger.getLogger(NewUserWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "The user already exists. Please try with another one.");
+                clearTxt();
+            }
+        }
     }//GEN-LAST:event_btnNewUserActionPerformed
+
+    public void clearTxt(){
+        txtNationalID.setText("National ID");
+        txtPassword.setText("Password");
+        txtUser.setText("User Name");
+    }
+    
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        actualContainer.showPanel(loginWindow);
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -170,8 +204,8 @@ public class NewUserWindow extends javax.swing.JPanel {
     private javax.swing.JLabel lblInstructions3;
     private javax.swing.JLabel lblPlus;
     private javax.swing.JPanel pnlPlus;
-    private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtNationalID;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

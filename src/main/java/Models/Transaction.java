@@ -7,51 +7,82 @@ import java.util.List;
 import java.util.Objects;
 
 public class Transaction {
-    private Long id;
+    private long id;
     private TransactionType type;
     private String description;
-    private Account origin;
-    private Account destiny;
+    private long originAccount;
+    private long destinyAccount;
     private float amount;
     private LocalDate date;
 
-    public Transaction(TransactionType type, String description, Account origin, Account destiny, float amount) {
+    public Transaction() {
+    }
+
+    public Transaction(long id, TransactionType type, String description, long originAccount, long destinyAccount, float amount) {
+        this.id = id;
         this.type = type;
         this.description = description;
-        this.origin = origin;
-        this.destiny = destiny;
+        this.originAccount = originAccount;
+        this.destinyAccount = destinyAccount;
         this.amount = amount;
         this.date = LocalDate.now();
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public TransactionType getType() {
         return type;
     }
 
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
     public String getDescription() {
         return description;
     }
 
-    public Account getOrigin() {
-        return origin;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Account getDestiny() {
-        return destiny;
+    public long getOriginAccount() {
+        return originAccount;
+    }
+
+    public void setOriginAccount(long originAccount) {
+        this.originAccount = originAccount;
+    }
+
+    public long getDestinyAccount() {
+        return destinyAccount;
+    }
+
+    public void setDestinyAccount(long destinyAccount) {
+        this.destinyAccount = destinyAccount;
     }
 
     public float getAmount() {
         return amount;
     }
 
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
     public LocalDate getDate() {
         return date;
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,4 +91,10 @@ public class Transaction {
         Transaction that = (Transaction) o;
         return Objects.equals(id, that.id);
     }
+
+    @Override
+    public String toString() {
+        return id + "|" + type + "|" + description + "|" + originAccount + "|" + destinyAccount + "|" + amount + "|" + date;
+    }
+
 }
