@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.JOptionPane;
 
 public class AccountRepository {
 
@@ -118,6 +119,7 @@ public class AccountRepository {
             case ADD -> account.setBalance(account.getBalance() + amount);
             case SUBSTRACT -> {
                 if(account.getBalance() < amount){
+                    JOptionPane.showMessageDialog(null, "The transaction failed due to Insuficcient funds");
                     throw new TransactionException("The transaction failed due to Insuficcient funds");
                 }
                 account.setBalance(account.getBalance() - amount);

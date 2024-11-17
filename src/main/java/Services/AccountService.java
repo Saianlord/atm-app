@@ -11,6 +11,7 @@ import Repositories.AccountRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.JOptionPane;
 
 public class AccountService {
     private AccountRepository repo;
@@ -58,6 +59,7 @@ public class AccountService {
         }
 
         if (optionalAccount.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "The account couldn't be found");
             throw new TransactionException("The account couldn't be found");
         }
 

@@ -40,7 +40,6 @@ public class NewUserWindow extends javax.swing.JPanel {
 
         pnlPlus = new javax.swing.JPanel();
         lblPlus = new javax.swing.JLabel();
-        imgSecondaryLogo = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         txtNationalID = new javax.swing.JTextField();
         btnNewUser = new javax.swing.JButton();
@@ -50,6 +49,7 @@ public class NewUserWindow extends javax.swing.JPanel {
         lblInstructions2 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         lblInstructions4 = new javax.swing.JLabel();
+        imgSecondaryLogo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
@@ -80,10 +80,6 @@ public class NewUserWindow extends javax.swing.JPanel {
         );
 
         add(pnlPlus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 660, 270, 270));
-
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
-        imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 100, 110));
 
         txtUser.setBackground(new java.awt.Color(204, 204, 204));
         txtUser.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -160,6 +156,10 @@ public class NewUserWindow extends javax.swing.JPanel {
         lblInstructions4.setText("information to create your new account and");
         lblInstructions4.setToolTipText("");
         add(lblInstructions4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 700, -1));
+
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
+        imgSecondaryLogo.setText("jLabel1");
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed

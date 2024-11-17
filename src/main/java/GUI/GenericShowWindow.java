@@ -45,6 +45,20 @@ public class GenericShowWindow extends javax.swing.JPanel {
         fillTxt();
     }
     
+    public GenericShowWindow(ATM actualFrame, Generic4Window generic7Window, User user, Account account, Account account2, Transaction transaction, MainMenuWindow mainMenuWindow, TransactionType transactionType) {
+        this.actualFrame = actualFrame;
+        this.generic4Window = generic4Window;
+        this.user = user;
+        this.account = this.actualFrame.aService.getAccountById(account.getId());
+        this.account2 = account2;
+        this.transaction = transaction;
+        this.mainMenuWindow = mainMenuWindow;
+        this.transactionType = transactionType;
+        id = 0;
+        initComponents();
+        fillTxt();
+    }
+    
     public GenericShowWindow(ATM actualFrame, Generic4Window generic4Window, User user, MainMenuWindow mainMenuWindow, int id){
         this.actualFrame = actualFrame;
         this.generic4Window = generic4Window;
@@ -59,11 +73,12 @@ public class GenericShowWindow extends javax.swing.JPanel {
     }
 
     private void fillTxt() {
-        if (account.getClientId() == Integer.parseInt(user.getId())){
+        lblInstructions2.setText(" # " + transaction.getId());
+        if (account.getClientId() == Integer.parseInt(user.getId())){           
             lblInfo1.setText("Transaction type: " + transaction.getType());
             lblInfo2.setText("User: " + user.getName());
             lblInfo3.setText("Origin account name: " + account.getName());
-            lblInfo4.setText("Destiny account name: " + account.getName());
+            lblInfo4.setText("Destiny account name: " + account2.getName());
             lblInfo5.setText("Ammount of the transaction: $" + transaction.getAmount());
             lblInfo6.setText("Current origin acount balance: $" + account.getBalance());
             if (id != 0) {
@@ -87,7 +102,6 @@ public class GenericShowWindow extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imgSecondaryLogo = new javax.swing.JLabel();
         btnMainMenu = new javax.swing.JButton();
         btnAction = new javax.swing.JButton();
         lblInstructions1 = new javax.swing.JLabel();
@@ -98,14 +112,12 @@ public class GenericShowWindow extends javax.swing.JPanel {
         lblInfo3 = new javax.swing.JLabel();
         lblInfo4 = new javax.swing.JLabel();
         lblInfo5 = new javax.swing.JLabel();
+        imgSecondaryLogo = new javax.swing.JLabel();
+        lblInstructions2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-
-        imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 140));
 
         btnMainMenu.setBackground(new java.awt.Color(102, 102, 255));
         btnMainMenu.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
@@ -133,7 +145,7 @@ public class GenericShowWindow extends javax.swing.JPanel {
         lblInstructions1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblInstructions1.setText("Transaction summary!");
         lblInstructions1.setToolTipText("");
-        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 700, -1));
+        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 700, -1));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -174,6 +186,16 @@ public class GenericShowWindow extends javax.swing.JPanel {
         jPanel1.add(lblInfo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 590, 30));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 600, 433));
+
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
+        imgSecondaryLogo.setText("jLabel1");
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
+
+        lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions2.setText("Transaction summary!");
+        lblInstructions2.setToolTipText("");
+        add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 700, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
@@ -204,5 +226,6 @@ public class GenericShowWindow extends javax.swing.JPanel {
     private javax.swing.JLabel lblInfo5;
     private javax.swing.JLabel lblInfo6;
     private javax.swing.JLabel lblInstructions1;
+    private javax.swing.JLabel lblInstructions2;
     // End of variables declaration//GEN-END:variables
 }

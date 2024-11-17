@@ -8,6 +8,7 @@ import Repositories.TransactionRepository;
 
 import java.io.IOException;
 import java.util.Optional;
+import javax.swing.JOptionPane;
 
 public class TransactionService {
     private final TransactionRepository repo;
@@ -56,6 +57,7 @@ public class TransactionService {
         }
 
         if (optionalTransaction.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "The transaction couldn't be found");
             throw new TransactionException("The transaction couldn't be found");
         }
 

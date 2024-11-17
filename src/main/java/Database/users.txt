@@ -1,2 +1,2 @@
-1 | Ana | Ana | Ana
-2 | Fer | Fer | Fer
+1 | A | A | A
+2 | S | S | S

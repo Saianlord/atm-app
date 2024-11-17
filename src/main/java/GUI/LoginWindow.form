@@ -116,7 +116,6 @@
         </Constraint>
       </Constraints>
     </Component>
-
     <Component class="javax.swing.JPasswordField" name="txtPassword">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -145,7 +144,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="260" y="30" width="180" height="210"/>
+          <AbsoluteConstraints x="270" y="40" width="150" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>

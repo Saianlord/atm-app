@@ -37,6 +37,7 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
         btnAccount3.setVisible(false);
         btnAccount4.setVisible(false);
         btnAccount5.setVisible(false);
+        btnAccount6.setVisible(false);
         fillTxt();
     }
     
@@ -61,8 +62,8 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
                     btnAccount4.setText(accountList.get(3).getName());
                     break;
                 case 4:
-                    btnAccount5.setVisible(true);
-                    btnAccount5.setText(accountList.get(4).getName());
+                    btnAccount6.setVisible(true);
+                    btnAccount6.setText(accountList.get(4).getName());
                     break;
             }
 
@@ -71,6 +72,9 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
     
     public void continueTransaction(int btn){
         if((transactionType == TransactionType.DEPOSIT) || (transactionType == TransactionType.WITHDRAW)){
+            amountWindow = new Generic7Window(actualFrame, this, user, transactionType, accountList.get(btn), mainMenuWindow);
+            actualFrame.showPanel(amountWindow);
+        } else {
             amountWindow = new Generic7Window(actualFrame, this, user, transactionType, accountList.get(btn), mainMenuWindow);
             actualFrame.showPanel(amountWindow);
         }
@@ -91,9 +95,10 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
         btnAccount2 = new javax.swing.JButton();
         btnAccount1 = new javax.swing.JButton();
         btnAccount4 = new javax.swing.JButton();
-        btnAccount5 = new javax.swing.JButton();
+        btnAccount6 = new javax.swing.JButton();
         lblInstructions2 = new javax.swing.JLabel();
         lblInstructions1 = new javax.swing.JLabel();
+        btnAccount5 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 5, true));
@@ -101,7 +106,7 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
 
         imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
         imgSecondaryLogo.setText("jLabel1");
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 140));
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
 
         btnBack.setBackground(new java.awt.Color(102, 102, 255));
         btnBack.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
@@ -158,6 +163,29 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
         });
         add(btnAccount4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 540, 460, 70));
 
+        btnAccount6.setBackground(new java.awt.Color(102, 102, 255));
+        btnAccount6.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        btnAccount6.setForeground(new java.awt.Color(255, 255, 255));
+        btnAccount6.setText("Account 5");
+        btnAccount6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccount6ActionPerformed(evt);
+            }
+        });
+        add(btnAccount6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 700, 460, 70));
+
+        lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions2.setText("to perform your transaction:");
+        lblInstructions2.setToolTipText("");
+        add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 700, -1));
+
+        lblInstructions1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
+        lblInstructions1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInstructions1.setText("Select the account in wich you wish");
+        lblInstructions1.setToolTipText("");
+        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 700, -1));
+
         btnAccount5.setBackground(new java.awt.Color(102, 102, 255));
         btnAccount5.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnAccount5.setForeground(new java.awt.Color(255, 255, 255));
@@ -168,18 +196,6 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
             }
         });
         add(btnAccount5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
-
-        lblInstructions2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        lblInstructions2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions2.setText("to perform the transaction:");
-        lblInstructions2.setToolTipText("");
-        add(lblInstructions2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 700, -1));
-
-        lblInstructions1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
-        lblInstructions1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInstructions1.setText("Select the account in wich you wish");
-        lblInstructions1.setToolTipText("");
-        add(lblInstructions1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 700, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAccount1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount1ActionPerformed
@@ -203,8 +219,12 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
         continueTransaction(3);
     }//GEN-LAST:event_btnAccount4ActionPerformed
 
+    private void btnAccount6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount6ActionPerformed
+        continueTransaction(5);
+    }//GEN-LAST:event_btnAccount6ActionPerformed
+
     private void btnAccount5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccount5ActionPerformed
-        continueTransaction(4);
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnAccount5ActionPerformed
 
 
@@ -214,6 +234,7 @@ public class AccountSelectionWindow extends javax.swing.JPanel {
     private javax.swing.JButton btnAccount3;
     private javax.swing.JButton btnAccount4;
     private javax.swing.JButton btnAccount5;
+    private javax.swing.JButton btnAccount6;
     private javax.swing.JButton btnBack;
     private javax.swing.JLabel imgSecondaryLogo;
     private javax.swing.JLabel lblInstructions1;

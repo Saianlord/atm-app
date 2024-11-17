@@ -40,7 +40,6 @@ public class MainMenuWindow extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imgSecondaryLogo = new javax.swing.JLabel();
         btnMoneyDeposit = new javax.swing.JButton();
         btnWithdrawal = new javax.swing.JButton();
         btnRequestAccount = new javax.swing.JButton();
@@ -48,13 +47,11 @@ public class MainMenuWindow extends javax.swing.JPanel {
         btnMakeTransfer = new javax.swing.JButton();
         lblInstructions = new javax.swing.JLabel();
         btnPrintDocuments = new javax.swing.JButton();
+        imgSecondaryLogo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(122, 122, 255), 5, true));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
-        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 130));
 
         btnMoneyDeposit.setBackground(new java.awt.Color(102, 102, 255));
         btnMoneyDeposit.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
@@ -104,6 +101,11 @@ public class MainMenuWindow extends javax.swing.JPanel {
         btnMakeTransfer.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         btnMakeTransfer.setForeground(new java.awt.Color(255, 255, 255));
         btnMakeTransfer.setText("Make a transfer");
+        btnMakeTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMakeTransferActionPerformed(evt);
+            }
+        });
         add(btnMakeTransfer, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 540, 460, 70));
 
         lblInstructions.setFont(new java.awt.Font("Franklin Gothic Book", 0, 36)); // NOI18N
@@ -121,6 +123,10 @@ public class MainMenuWindow extends javax.swing.JPanel {
             }
         });
         add(btnPrintDocuments, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 620, 460, 70));
+
+        imgSecondaryLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SecondaryLogo.png"))); // NOI18N
+        imgSecondaryLogo.setText("jLabel1");
+        add(imgSecondaryLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 110));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRequestAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestAccountActionPerformed
@@ -149,6 +155,11 @@ public class MainMenuWindow extends javax.swing.JPanel {
         printDocuments = new Generic4Window(actualContainer, "PrintDocuments", user, this);
         actualContainer.showPanel(printDocuments);
     }//GEN-LAST:event_btnPrintDocumentsActionPerformed
+
+    private void btnMakeTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakeTransferActionPerformed
+        accountSelectionWindow = new AccountSelectionWindow(actualContainer, this, user, TransactionType.TRANSFER);
+        actualContainer.showPanel(accountSelectionWindow);// TODO add your handling code here:
+    }//GEN-LAST:event_btnMakeTransferActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
