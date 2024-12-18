@@ -9,34 +9,25 @@ import Models.Transaction;
 import Repositories.AccountRepository;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JOptionPane;
 
 public class AccountService {
     private AccountRepository repo;
-    private final IdCounterService idCounterService;
 
-    public AccountService(AccountRepository repo, IdCounterService idCounterService) {
+    public AccountService(AccountRepository repo) {
         this.repo = repo;
-        this.idCounterService = idCounterService;
     }
 
 
 
     public void addAccount(String name, long clientId){
-        long newAccountId;
-        try {
-            newAccountId = (idCounterService.getLastId(IdType.ACCOUNTID) + 1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Account a = new Account(newAccountId, name, clientId);
-
+        Account a = new Account(name, clientId);
         try {
             repo.saveAccount(a);
-            idCounterService.saveCounter(IdType.ACCOUNTID, newAccountId);
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new AccountException("Error trying to save this new account");
         }
     }
@@ -45,7 +36,7 @@ public class AccountService {
     public List<Account> getAccountsByClientId(long clientId){
         try {
             return repo.getAccountsByClientId(clientId);
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new AccountException("Error trying to access client's accounts");
         }
     }
@@ -54,7 +45,7 @@ public class AccountService {
         Optional<Account> optionalAccount = null;
         try {
             optionalAccount = repo.getAccountById(accountId);
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -66,7 +57,7 @@ public class AccountService {
         return optionalAccount.get();
     }
 
-    protected void startTransaction(Transaction t) throws IOException {
+    protected void startTransaction(Transaction t) throws SQLException {
 
         switch (t.getType()){
             case DEPOSIT -> deposit(t.getOriginAccount(), t.getAmount());
@@ -76,7 +67,7 @@ public class AccountService {
     }
 
 
-    private void deposit(Long account, float amount) throws IOException {
+    private void deposit(Long account, float amount) throws SQLException {
 
 
         repo.modifyBalance(account, amount, Operation.ADD);
@@ -84,7 +75,7 @@ public class AccountService {
 
     }
 
-    private void withdraw(Long account, float amount) throws IOException {
+    private void withdraw(Long account, float amount) throws SQLException {
 
         repo.modifyBalance(account, amount, Operation.SUBSTRACT);
 
@@ -92,7 +83,7 @@ public class AccountService {
 
     }
 
-    private void transfer(Long originAccount, Long destinyAccount,  float amount) throws IOException {
+    private void transfer(Long originAccount, Long destinyAccount,  float amount) throws SQLException {
         repo.modifyBalance(originAccount, amount, Operation.SUBSTRACT);
 
         repo.modifyBalance(destinyAccount, amount, Operation.ADD);

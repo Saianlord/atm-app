@@ -12,8 +12,7 @@ public class Account {
     private String name;
     private float balance;
 
-    public Account(long id, String name, long clientId) {
-        this.id = id;
+    public Account(String name, long clientId) {
         this.name = name;
         this.clientId = clientId;
         this.balance = 0.0f;

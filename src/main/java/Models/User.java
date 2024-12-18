@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String id;
+    private Long id;
     private String nationalId;
     private String name;
     private String pin;
@@ -19,18 +19,17 @@ public class User {
     public User(){
         
     }
-    public User(String nationalId, String name, String id, String pin) {
+    public User(String nationalId, String name, String pin) {
         this.nationalId = nationalId;
         this.name = name;
-        this.id = id;
         this.pin = pin;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,87 +1,71 @@
 package Repositories;
 
-import Util.UsersFile;
-import java.io.BufferedReader;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import Models.User;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class UserRepository {
+    private Connection conn;
 
-    private UsersFile usersFile = UsersFile.getInstance();
-    private File file = usersFile.getFile();
 
-    public UserRepository() {
+    public UserRepository( Connection conn ) {
+        this.conn = conn;
     }
-    
-    
 
-    public User getUserById(String idNumber) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (foundUser(line, idNumber)) {
-                    return createUser(line);
-                }
+    public void saveUser(User user) throws SQLException {
+        String sql = user.getId() > 0 ? "UPDATE users SET national_id = ?, name = ?, pin = ?, WHERE id = ?" :
+                "INSERT INTO users (national_id, name, pin) VALUES (?, ?, ?)";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, user.getNationalId());
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getPin());
+            if(user.getId() > 0){
+                preparedStatement.setLong(4, user.getId());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            preparedStatement.executeUpdate();
         }
-        return null;
     }
-    
-    public User getUserByUser(String userName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (foundUserByUser(line, userName)) {
-                    return createUser(line);
-                }
+
+    public User getUserById(Long userId) throws SQLException {
+
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setLong(1, userId);
+
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                return createUser(rs);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
-    private boolean foundUserByUser(String line, String userName) {
-        String[] userData = line.split("\\|");
-        return userData[1].trim().equals(userName);
-    }
-   
-    private boolean foundUser(String line, String idNumber) {
-        String[] userData = line.split("\\|");
-        return userData[2].trim().equals(idNumber);
+    public User getUserByUser(String userName) throws SQLException {
+        String sql = "SELECT * FROM users WHERE name = ?";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, userName);
+
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                return createUser(rs);
+            }
+        }
     }
 
 
-    private User createUser(String line) {
-        String[] userData = line.split("\\|");
+
+    private User createUser(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(userData[0].trim());
-        user.setName(userData[1].trim());
-        user.setNationalId(userData[2].trim());
-        user.setPin(userData[3].trim());
+        user.setId(rs.getLong("id"));
+        user.setName(rs.getString("name"));
+        user.setNationalId(rs.getString("national_id"));
+        user.setPin(rs.getString("pin"));
         return user;
     }
-
- 
-    public boolean createUserInFile(User user) {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            String newUser = user.getId() + " | " +
-                             user.getName() + " | " +
-                             user.getNationalId() + " | " +
-                             user.getPin() + "\n";
-            writer.write(newUser);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    }
-
+}
 

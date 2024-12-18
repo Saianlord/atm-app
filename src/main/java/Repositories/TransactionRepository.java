@@ -1,64 +1,63 @@
 package Repositories;
 
-import Models.Account;
 import Models.Transaction;
 import Models.TransactionType;
-import Util.TransactionsFile;
-import Util.UsersFile;
 
 import java.io.*;
+import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 
 public class TransactionRepository {
-    private TransactionsFile transactionsFile = TransactionsFile.getInstance();
+    private Connection conn;
 
-    private File file = transactionsFile.getFile();
 
-    public TransactionRepository() {
+    public TransactionRepository( Connection conn ) {
+        this.conn = conn;
     }
 
-    public void saveTransaction(Transaction transaction) throws IOException {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.write(transaction.toString() + "\n");
+    public void saveTransaction(Transaction transaction) throws SQLException {
+        String sql = "INSERT INTO transactions (transaction_type, description, origin_account, destiny_account, amount, transaction_date) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, transaction.getType().toString());
+            preparedStatement.setString(2, transaction.getDescription());
+            preparedStatement.setLong(3, transaction.getOriginAccount());
+            preparedStatement.setLong(4, transaction.getDestinyAccount());
+            preparedStatement.setFloat(5, transaction.getAmount());
+            preparedStatement.setDate(6, Date.valueOf(transaction.getDate()));
+
+            preparedStatement.executeUpdate();
         }
     }
 
 
-    public Optional<Transaction> getTransactionById(long id) throws IOException {
+    public Optional<Transaction> getTransactionById(long id) throws SQLException {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(foundTransaction(line, id)){
-                    return Optional.of(createTransaction(line));
-                }
+        String sql = "SELECT * FROM transactions WHERE id = ?";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                return Optional.of(createTransaction(rs));
             }
         }
-        return Optional.empty();
     }
 
 
 
-    private boolean foundTransaction(String line, long id){
-        String[] attributes = line.split("\\|");
 
-        return Long.parseLong(attributes[0]) == id;
-
-    }
-
-    private Transaction createTransaction(String line){
-        String[] attributes = line.split("\\|");
+    private Transaction createTransaction(ResultSet rs) throws SQLException {
         Transaction t = new Transaction();
-        t.setId(Long.parseLong(attributes[0]));
-        t.setType(TransactionType.valueOf(attributes[1]));
-        t.setDescription(attributes[2]);
-        t.setOriginAccount(Long.parseLong(attributes[3]));
-        t.setDestinyAccount(Long.parseLong(attributes[4]));
-        t.setAmount(Float.parseFloat(attributes[5]));
-        t.setDate(LocalDate.parse(attributes[6]));
+        t.setId(rs.getLong("id"));
+        t.setType(TransactionType.valueOf(rs.getString("transaction_type")));
+        t.setDescription(rs.getString("description"));
+        t.setOriginAccount(rs.getLong("origin_account"));
+        t.setDestinyAccount(rs.getLong("destiny_account"));
+        t.setAmount(rs.getFloat("amount"));
+        t.setDate(LocalDate.parse(rs.getDate("transaction_date").toString()));
 
         return t;
 

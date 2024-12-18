@@ -18,8 +18,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(long id, TransactionType type, String description, long originAccount, long destinyAccount, float amount) {
-        this.id = id;
+    public Transaction(TransactionType type, String description, long originAccount, long destinyAccount, float amount) {
         this.type = type;
         this.description = description;
         this.originAccount = originAccount;

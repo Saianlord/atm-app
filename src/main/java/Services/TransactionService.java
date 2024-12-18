@@ -7,42 +7,32 @@ import Models.TransactionType;
 import Repositories.TransactionRepository;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 import javax.swing.JOptionPane;
 
 public class TransactionService {
     private final TransactionRepository repo;
     private final AccountService accountService;
-    private final IdCounterService idCounterService;
 
-    public TransactionService(TransactionRepository repo, AccountService accountService, IdCounterService idCounterService) {
+    public TransactionService(TransactionRepository repo, AccountService accountService) {
         this.repo = repo;
         this.accountService = accountService;
-        this.idCounterService = idCounterService;
     }
 
     public Transaction addTransaction(TransactionType type, String description, Long origin, Long destiny, float amount){
-        long newTransactionId;
-        try {
-            newTransactionId = (idCounterService.getLastId(IdType.TRANSACTIONID) + 1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        Transaction t = new Transaction(newTransactionId, type, description, origin, destiny, amount);
+        Transaction t = new Transaction(type, description, origin, destiny, amount);
 
         try {
             accountService.startTransaction(t);
             saveTransaction(t);
-            idCounterService.saveCounter(IdType.TRANSACTIONID, newTransactionId);
             return t;
 
-        } catch (IOException e) {
+        } catch (SQLException e) {
 
             throw new TransactionException("The operation has failed. Changes weren't saved in the data base.");
         }
-
-
 
     }
 
@@ -52,7 +42,7 @@ public class TransactionService {
         try {
             optionalTransaction = repo.getTransactionById(transactonId);
 
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -69,7 +59,7 @@ public class TransactionService {
         try {
             repo.saveTransaction(transaction);
 
-        } catch (IOException e) {
+        } catch (SQLException e) {
 
             throw new TransactionException("The transaction was processed, but the changes couldn't be saved");
         }

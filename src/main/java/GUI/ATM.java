@@ -5,27 +5,28 @@
 package GUI;
 
 import Repositories.AccountRepository;
-import Repositories.IdCounterRepository;
 import Repositories.TransactionRepository;
 import Repositories.UserRepository;
 import Services.AccountService;
-import Services.IdCounterService;
 import Services.TransactionService;
 import Services.UserService;
+import Util.SQLConnection;
+
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import javax.swing.JPanel;
 
 
 public class ATM extends javax.swing.JFrame {
-    
-    IdCounterRepository idRepo = new IdCounterRepository();
-    IdCounterService idService = new IdCounterService(idRepo);
-    AccountRepository repo = new AccountRepository();
-    AccountService aService = new AccountService(repo, idService);
-    TransactionRepository trepo = new TransactionRepository();
-    TransactionService tservice = new TransactionService(trepo, aService, idService);
-    UserRepository uRepo = new UserRepository();
-    UserService uService = new UserService(uRepo, idService);
+    SQLConnection sqlConnection = new SQLConnection();
+    Connection conn = sqlConnection.getConnection();
+
+    AccountRepository repo = new AccountRepository(conn);
+    AccountService aService = new AccountService(repo);
+    TransactionRepository trepo = new TransactionRepository(conn);
+    TransactionService tservice = new TransactionService(trepo, aService);
+    UserRepository uRepo = new UserRepository(conn);
+    UserService uService = new UserService(uRepo);
 
     private LoginWindow loginWindow;
     private MainMenuWindow mainMenuWindow;

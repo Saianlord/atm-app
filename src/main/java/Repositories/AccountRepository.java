@@ -4,109 +4,88 @@ import Exceptions.TransactionException;
 import Models.Account;
 import Models.Operation;
 
-import Util.AccountsFile;
-
-
-import java.io.*;
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.JOptionPane;
 
 public class AccountRepository {
 
-    private AccountsFile accountsFile = AccountsFile.getInstance();
-
-    private File file = accountsFile.getFile();
+    private Connection conn;
 
 
-    public AccountRepository() {
-
+    public AccountRepository( Connection conn ) {
+        this.conn = conn;
     }
 
-    public void saveAccount(Account account) throws IOException {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.write(account.toString() + "\n");
+    public void saveAccount(Account account) throws SQLException {
+        String sql = account.getId() > 0 ? "UPDATE accounts SET name = ?, balance = ?, WHERE id = ?" :
+                "INSERT INTO accounts (name, client_id, balance) VALUES (?, ?, ?)";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, account.getName());
+            if(account.getId() > 0){
+                preparedStatement.setFloat(2, account.getBalance());
+                preparedStatement.setLong(3, account.getId());
+            }else {
+                preparedStatement.setLong(2, account.getClientId());
+                preparedStatement.setFloat(3, account.getBalance());
+            }
+
+            preparedStatement.executeUpdate();
         }
     }
 
 
-    public List<Account> getAccountsByClientId(long clientId) throws IOException {
+    public List<Account> getAccountsByClientId(long clientId) throws SQLException {
         List<Account> clientAccounts = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(foundAccount(line, clientId, true)){
-                    clientAccounts.add(createAccount(line));
+        String sql = "SELECT * FROM accounts WHERE client_id = ?";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setLong(1, clientId);
+
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()){
+                    clientAccounts.add(createAccount(rs));
                 }
             }
         }
+
         return clientAccounts;
     }
 
-    public Optional<Account> getAccountById(long accountId) throws IOException {
+    public Optional<Account> getAccountById(long accountId) throws SQLException {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(foundAccount(line, accountId, false)){
-                    return Optional.of(createAccount(line));
-                }
+        String sql = "SELECT * FROM accounts WHERE id = ?";
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setLong(1, accountId);
+
+            try(ResultSet rs = preparedStatement.executeQuery()){
+               return Optional.of(createAccount(rs));
             }
         }
-        return Optional.empty();
     }
 
 
-    private boolean foundAccount(String line, long id, boolean isClient){
-        String[] attributes = line.split("\\|");
-        if(!isClient){
-            return Long.parseLong(attributes[0]) == id;
-        }
-        return Long.parseLong(attributes[1]) == id;
-    }
-
-
-    private Account createAccount(String line) {
-        String[] attributes = line.split("\\|");
+    private Account createAccount(ResultSet rs) throws SQLException {
         Account a = new Account();
-        a.setId(Long.parseLong(attributes[0]));
-        a.setClientId(Long.parseLong(attributes[1]));
-        a.setName(attributes[2]);
-        a.setBalance(Float.parseFloat(attributes[3]));
+        a.setId(rs.getLong("id"));
+        a.setClientId(rs.getLong("client_id"));
+        a.setName(rs.getString("name"));
+        a.setBalance(rs.getFloat("balance"));
 
         return a;
     }
 
-    private List<Account> listAllAccounts() throws IOException {
-        List<Account> accounts = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                accounts.add(createAccount(line));
-            }
-        }
 
-        return accounts;
-    }
-
-    private void updateAccount(Account updatedAccount) throws IOException {
-        List<Account> accounts = listAllAccounts();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (Account account : accounts) {
-                if (account.getId() == updatedAccount.getId()) {
-                    writer.write(updatedAccount + "\n");
-                } else {
-                    writer.write(account.toString() + "\n");
-                }
-            }
-        }
-    }
-
-    public void modifyBalance(Long accountId, float amount, Operation operation) throws IOException {
+    public void modifyBalance(Long accountId, float amount, Operation operation) throws SQLException {
         Optional<Account> optionalAccount = getAccountById(accountId);
 
         if (optionalAccount.isEmpty()) {
@@ -126,7 +105,7 @@ public class AccountRepository {
             }
         }
 
-        updateAccount(account);
+        saveAccount(account);
     }
 
 }
